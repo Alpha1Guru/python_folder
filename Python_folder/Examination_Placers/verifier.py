@@ -48,8 +48,8 @@ def verint(integer): #function verifies for correct integers only!
         result=check_unwanted(integer,float=False) #checks the text again untill correct
     return integer #returns the correctf(ed)text
 
-while True:
-   user = verifloat(input("Using Verifloat for float Give me a number: ").strip())
-   print(user)
-   user = verint(input("Using Verint for integer Give me a number: ").strip())
-   print(user)
+# while True:
+#    user = verifloat(input("Using Verifloat for float Give me a number: ").strip())
+#    print(user)
+#    user = verint(input("Using Verint for integer Give me a number: ").strip())
+#    print(user)
