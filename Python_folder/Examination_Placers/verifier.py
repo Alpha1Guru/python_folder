@@ -32,7 +32,7 @@ def verifloat(decimal): #fuction verifies for correct float or decimal numbers
         if decimal == "":
             message = f"\nYou gave an EMPTY value!\tPlease I need a Decimal number: "
         elif decimal!= "":
-            message = f"\n'{decimal}' is NOT A DECIMAL number!\tPlease I need a Decimal number: "
+            message = f"\n'{decimal}' is NOT A DECIMAL NUMBER!\tPlease enter a valid decimal number: "
         decimal=input(message) #it prompts user for a correct number
         result=check_unwanted(decimal) #checks the text again untill correct
     return decimal #returns the correct(ed) text
