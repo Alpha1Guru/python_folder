@@ -41,7 +41,7 @@ def verint(integer): #function verifies for correct integers only!
     result=check_unwanted(integer,float =False) #checks the text as an integer and not a float
     while True in result: #while the text failed the test
         if integer == "":
-            message = f"\nYou gave an EMPTY value!\tPlease I need an Integer"
+            message = f"\nYou gave an EMPTY value!\tPlease I need an Integer: "
         elif integer!= "":
             message = f"\n'{integer}' is NOT AN INTEGER!\tPlease I need an Integer: "
         integer=input(message) #it promts user for a correct integer
