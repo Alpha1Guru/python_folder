@@ -111,3 +111,4 @@ for i in range(len(hall_names)):
         print(random_class)
     print(hall_names[i],halls[hall_names[i]]);print(hallsize(hall_names[i]))
 print("remainder",remainder())
+print(halls)

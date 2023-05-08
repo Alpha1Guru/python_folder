@@ -84,14 +84,14 @@ def remainder(): # returns the total number of students NOT assigned to any hall
 
 
 # User defined inputs
-from verifier import verify
+from verifier import verint
 while True:
     response = input("Do you want to define the hall limits your self? [Y/N]: ")
     if response == "Y":
         hall_limits = []
         while sum(hall_limits) != len(total_students):
             for i in range(len(hall_names)):
-                hall_limit = int(verify(input(f'''Tell me the hall limit of {hall_names[i]}: ''')))
+                hall_limit = int(verint(input(f'''Tell me the hall limit of {hall_names[i]}: ''')))
                 hall_limits.append(hall_limit)
             if sum(hall_limits) != len(total_students):
                 print(f'''Your input does not match the total number of the students.
