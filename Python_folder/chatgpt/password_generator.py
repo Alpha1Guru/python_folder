@@ -1,7 +1,6 @@
 import random
 import string
-from turtle import goto
-
+import pyclip
 from verifier import verint as vi
 
 print(""" 
@@ -19,9 +18,10 @@ response = input("""Want to generate some password (yes/no): """)
 while True:
     if response.lower() == 'yes':
         name = input(" In which account will you use the password? (e.g avast1021@yahoo.com, proton vpn account,etc): ") 
-        filename = list(name)
-        # filename = [filename for char in filename if char in ("?","\\","/","*","\'","\"","<",">","|") filename.remove(char)]
-        filename = "".join(name.split()) + ".txt"
+        for char in name:
+            if char in ("?","\\","/","*","\'","\"","<",">","|"):
+                name = name.replace(char,"")
+        filename = "_".join(name.split()) + ".txt"
         filepath = "C:/Users/hp/Documents/Passwords/generatedpasswords/" + filename
         length = int(vi(input("How long would you want your password to be (give me an integer number): ")))
         complexity = input("Enter the complexity of the password (low, medium, high): ")
@@ -36,12 +36,14 @@ while True:
             chars = string.ascii_letters + string.digits + string.punctuation
         
         password = ''.join(random.choice(chars) for i in range(length))
+        pyclip.copy(password)
         message = name + "\n" + "-"*len(filename) + "\n" + password
         # message = f""""""
         with open(filepath,'x') as passfile:
              passfile.write(message)
-        print(f"""Your {name} password is: {password}
-        Your password can be found in {filepath}""")
+        print(f"""Your "{name}" password is: {password}
+        Your password can be found in {filepath}
+        NO need to copy password it is already in your clip board""")
     elif response.lower() == "no":
         print(f"Thanks for using password generator Bye!!")
         exit()
