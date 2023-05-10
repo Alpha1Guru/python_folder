@@ -163,9 +163,9 @@ for hallname,studentnameclasses in students_by_hall_name_and_class.items():
     # table                     = [['Gloria'      , 'SS1B'        ], ['Ss3A'        , 'SS3A'        ] ,['Kuma'        , 'SS3B'        ]]
     # |~represents hall names~| = [[~nameclass[0]~, ~nameclass[1]~], [~nameclass[0]~, ~nameclass[1]~] ,[~nameclass[0]~, ~nameclass[1]~]]
     #                             |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ studentnameclasses ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
-    #print(table)
-    table_file=tabulate(table,headers = ["names".title(),"class".title()], tablefmt="grid", showindex= range(1,hallsize(hallname) + 1))
+    #print(table) 
+    table_file = tabulate(table,headers = ["names".title(),"class".title()], tablefmt="rounded_grid", showindex= range(1,hallsize(hallname) + 1))
     print(table_file)
     table_filepath ="C:/Users/hp/Documents/Github/python_folder/python_folder/examination_placers/tables/hall_"+str(hallname) + ".txt"
     with open(table_filepath,"w") as tbf:
-        tbf.write(table_file )
+        tbf.write(table_file)
