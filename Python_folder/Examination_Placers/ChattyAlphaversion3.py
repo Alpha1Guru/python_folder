@@ -1,6 +1,7 @@
+#Creation of names for halls and class
 hall_names = ["A","B","C","D","E","F","G","H","I","J","K","L","M",]
 class_names = ["JSS1","JSS2","JSS3","SS1A","SS1B","SS2A","SS2B","SS3A","SS3B",]
-
+#Storing the names of students by thier class
 students_by_class = {
     "JSS1": ["jss1", "john", "fatia","mujeeb","helen","absolom",],
     "JSS2": ["jss2"],
@@ -12,27 +13,15 @@ students_by_class = {
     "SS3A": ["ss3a","bolu","kante","tochi","kosi",],
     "SS3B": ["ss3b","bade","xenox","kuma",]
 }
-#Temporal list for data manipulation
-JSS1 = students_by_class["JSS1"][:]
-JSS2 = students_by_class["JSS2"][:]
-JSS3 = students_by_class["JSS3"][:]
-SS1A = students_by_class["SS1A"][:]
-SS1B = students_by_class["SS1B"][:]
-SS2A = students_by_class["SS2A"][:]
-SS2B = students_by_class["SS2B"][:]
-SS3A = students_by_class["SS3A"][:]
-SS3B = students_by_class["SS3B"][:]
-
-classes = [JSS1, JSS2, JSS3, SS1A, SS1B, SS2A, SS2B, SS3A, SS3B]
+#Temporary list for data manipulation
+classes = [students_by_class[key][:] for key in students_by_class.keys()]
 # print("classes: ", classes)
-
+#Creation of halls and their class divisions
 halls = {hall_name: {classe: [] for classe in class_names} for hall_name in hall_names}
 
 total_students = [student for students_list in students_by_class.values() for student in students_list]
 hall_limits = [len(total_students) // len(hall_names) for hall in hall_names]
 hall_remainder = len(total_students) % len(hall_names)
-class_limits = [len(students_by_class[classe]) // len(hall_names) for classe in class_names]
-class_remainders = [len(students_by_class[classe]) % len(hall_names) for classe in class_names]
 
 def hallsize(hall_name):
     return sum(len(classe) for classe in halls[hall_name].values())
@@ -42,7 +31,8 @@ def totalhallsize():
 
 def remainder():
     return len(total_students) - totalhallsize()
-#Checks wether a user wants to specifcally write the hall limits of each hall
+
+#Checks wether a user wants to specifcally input the hall limits of each hall
 from verifier import verint as vi
 while True:
     response = input("Do you want to define the hall limits yourself? [Y/N]: ")
@@ -74,7 +64,7 @@ while True:
     else:
         print("Invalid input!. Type [Y/N]")
 
-#Spits the student in halls
+#Splits the students randomly in halls
 import random
 for i in range(len(hall_names)):
     while hallsize(hall_names[i]) < hall_limits[i]:
@@ -127,6 +117,14 @@ students_data = [{"name":member,"class":classname,"hall":hallname} for hallname 
 students_by_hall_name_and_class = {}
 students_by_hall_name_only = {}
 
+def check_sorted_name_hall_index(studentsname,hallname):
+    students_by_hall_name_only[hallname].sort()
+    for i in range(len(students_by_hall_name_only[hallname])):
+        if studentsname == students_by_hall_name_only[hallname][i]:
+            index = i
+            break
+    return index
+
 while True:
     askresponse = input("""How do you want your table to be? 
                         Strictly alphabetical (type: s) or classicaly alpahbeticl (type: c): """)
@@ -134,13 +132,6 @@ while True:
         break      
     elif askresponse.lower() not in ("s","c"):
         print("Invalid response! (type s or c)")
-def check_sorted_name_hall_index(studentsname,hallname):
-    students_by_hall_name_only[hallname].sort()
-    for i in range(len(students_by_hall_name_only[hallname])):
-        if studentsname == students_by_hall_name_only[hallname][i]:
-            index = i
-            break
-    return index    
 for i in range(len(students_data)):
     hall = students_data[i]["hall"]
     if hall not in students_by_hall_name_and_class:
@@ -156,6 +147,7 @@ for i in range(len(students_data)):
         students_by_hall_name_and_class[hall].append([students_data[i]["name"],students_data[i]["class"]])
 # print(students_by_hall_name_and_class)
 
+#prints table for each hall
 for hallname,studentnameclasses in students_by_hall_name_and_class.items():
     print(f"\nHall table for {hallname.title()}:")
     table =[[nameclass[0].title(),nameclass[1].upper()] for nameclass in studentnameclasses ]
