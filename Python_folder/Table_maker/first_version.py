@@ -49,29 +49,3 @@ for i in range(n):
        row+=cell
     print(row)  
     
-    
-#full_text=""
-#heading_row=""
-#for j in range(len(title_columns)):
-    
-#rows=[]
-#number_of_rows=n
-#for i in range(number_of_rows):
-#    rows.append([])
-
-##Does not work
-#for title in title_columns:
-#    rows[0].append[title]
-#print(rows)
-
-#for j in range(n):
-#    row=[]
-#    for k,v in teachers_data[j].items():
-#        row.append(v)
-#    rows[j]=row
-#print(rows)
-
-#This adds the title to the rows
-#rows.insert(0, title_columns)
-#print(rows)
-

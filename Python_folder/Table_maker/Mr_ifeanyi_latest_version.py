@@ -107,7 +107,7 @@ full_page = "\n" + date +"\n" + time +"\n" + full_table
 print(full_page)
 
 #copying full page to a file
-file= "C:/Users/hp/Documents/Python_folder/text_files_folder/mrifeanyi.txt"
+file= "C:/Users/hp/Documents/Python_folder/python_folder/table_maker/text_files_folder/mrifeanyi.txt"
 with open( file,'w') as text_file:
     text_file.write(full_page)
     

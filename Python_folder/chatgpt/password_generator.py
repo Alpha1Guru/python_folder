@@ -22,7 +22,7 @@ while True:
             if char in ("?","\\","/","*","\'","\"","<",">","|"):
                 name = name.replace(char,"")
         filename = "_".join(name.split()) + ".txt"
-        filepath = "C:/Users/hp/Documents/Passwords/generatedpasswords/" + filename
+        filepath = "C:/Users/hp/Documents/github/python_folder/python_folder/chatgpt/generatedpasswords/" + filename
         length = int(vi(input("How long would you want your password to be (give me an integer number): ")))
         complexity = input("Enter the complexity of the password (low, medium, high): ")
         while complexity.lower() not in ("low","medium","high"):
@@ -37,7 +37,7 @@ while True:
         
         password = ''.join(random.choice(chars) for i in range(length))
         pyclip.copy(password)
-        message = name + "\n" + "-"*len(filename) + "\n" + password
+        message = name + "\n" + "-"*len(name) + "\n" + password
         # message = f""""""
         with open(filepath,'x') as passfile:
              passfile.write(message)
