@@ -158,6 +158,6 @@ for hallname,studentnameclasses in students_by_hall_name_and_class.items():
     #print(table)
     table_file=tabulate(table,headers = ["names".title(),"class".title()], tablefmt="grid", showindex= range(1,hallsize(hallname) + 1))
     print(table_file)
-    table_filepath ="C:/Users/DELL/Documents/Github/python_folder/python_folder/examination_placers/tables/hall_"+str(hallname) + ".txt"
+    table_filepath ="examination_placers/tables/hall_"+str(hallname) + ".txt"
     with open(table_filepath,"w") as tbf:
         tbf.write(table_file )
