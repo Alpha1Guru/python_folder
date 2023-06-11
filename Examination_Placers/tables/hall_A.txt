@@ -1,11 +1,43 @@
-+----+---------+---------+
-|    | Names   | Class   |
-+====+=========+=========+
-|  1 | Helen   | JSS1    |
-+----+---------+---------+
-|  2 | Jss2    | JSS2    |
-+----+---------+---------+
-|  3 | Jss3    | JSS3    |
-+----+---------+---------+
-|  4 | Ss3B    | SS3B    |
-+----+---------+---------+
+    Names       Class
+--  ----------  -------
+ 1  Absolom     JSS1
+ 2  Fatia       JSS1
+ 3  Helen       JSS1
+ 4  John        JSS1
+ 5  Jss1        JSS1
+ 6  Mujeeb      JSS1
+ 7  Jss2        JSS2
+ 8  Geoferry    JSS3
+ 9  Jss3        JSS3
+10  Taiwo       JSS3
+11  Horla       SS1A
+12  Jarimat     SS1A
+13  Olaf        SS1A
+14  Rati        SS1A
+15  Ss1A        SS1A
+16  Alade       SS1B
+17  Gloria      SS1B
+18  Henry       SS1B
+19  Magarita    SS1B
+20  Micheal     SS1B
+21  Okoli       SS1B
+22  Peace       SS1B
+23  Ss1B        SS1B
+24  Toyin       SS1B
+25  Yemi        SS1B
+26  Baba        SS2A
+27  Emmma       SS2A
+28  Latifa      SS2A
+29  Ss2A        SS2A
+30  Tola        SS2A
+31  Marvellous  SS2B
+32  Ss2B        SS2B
+33  Bolu        SS3A
+34  Kante       SS3A
+35  Kosi        SS3A
+36  Ss3A        SS3A
+37  Tochi       SS3A
+38  Bade        SS3B
+39  Kuma        SS3B
+40  Ss3B        SS3B
+41  Xenox       SS3B

@@ -30,4 +30,4 @@ def MakeMultiplicationTable(rownum , columnum,startrow=1,startcolumn=1):
                 hline+= "-"*len(char)+ " "
             ntable += hline + "\n"      
     print(ntable)
-MakeMultiplicationTable(110,10,startcolumn=2,startrow=99)
+MakeMultiplicationTable(94,12,startcolumn=0,startrow=80)

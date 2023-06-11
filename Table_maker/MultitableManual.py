@@ -50,15 +50,15 @@ def MakeMultiplicationTable(rownum , columnum,startrow=1,startcolumn=1):
     newrows = [[(" "*(maximum-len(char)))+char for char in row ]for row in rows]
     # print(newrows)
     ntable =""
-    for row in newrows:
+    for i in range(len(newrows)):
         nline = ""
-        for char in row:
-            nline+= char + " "
+        for j in range(len(newrows[i])):
+            nline+= newrows[i][j] + " "
         ntable+= nline + "\n"
-        if row == newrows[0]:
+        if i == 0:
             hline=""
-            for char in row:
+            for char in newrows[i]:
                 hline+= "-"*len(char)+ " "
             ntable += hline + "\n"      
     print(ntable)
-MakeMultiplicationTable(110,10,startcolumn=2,startrow=99)
+MakeMultiplicationTable(100,12,startrow=90)
