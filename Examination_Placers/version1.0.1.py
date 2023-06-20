@@ -86,7 +86,7 @@ import random
 for i in range(len(hall_names)):
     while hallsize(hall_names[i]) < hall_limits[i]:
         for j in range(len(class_names)):
-            if len(classes[j]) != 0 and hallsize(hall_names[i]) < hall_limits[i]:
+            if len(classes[j]) > 0 and hallsize(hall_names[i]) < hall_limits[i]:
                 selected = random.choice(classes[j])
                 print(classes[j])
                 classes[j].remove(selected)

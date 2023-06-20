@@ -1,13 +1,4 @@
-"""Introduction/Overview by Chatgpt...
-...
-...
-"""
 #Creation of names for halls and class
-"""" This first lines of code has to do with the collection of inputs needed for the code to work.
-This inputs are the names of the halls to be created and the names of the classes to be shared.
-Here the individual memebers of the classes,the names of classes and the names of halls  where manually inputed in the code.
-Future update will include user inputed data(i.e hall names, class names and class members) which will be stored in a database.
-The database will enhance easy manipulation of data (updating the names of classes, class members and halls , deletion, insertion,etc)"""
 hall_names = ["A","B","C","D","E","F","G","H","I","J","K","L","M",]
 class_names = ["JSS1","JSS2","JSS3","SS1A","SS1B","SS2A","SS2B","SS3A","SS3B",]
 #Storing the names of students by thier class
@@ -22,33 +13,6 @@ students_by_class = {
     "SS3A": ["ss3a","bolu","kante","tochi","kosi",],
     "SS3B": ["ss3b","bade","xenox","kuma",]
 }
-"""SOME VARIABLES AND FUNCTIONS USED
----=================================---
-Variables:
-            classes= this variable is a list of lists. The elements of the list are lists/(class) that contains names of class members
-            === its use is to manipulate the students_by_class dictionary without affecting the dictionary itself.
-            
-            halls= this is a dictionary whose structure is {hall name=> {class name=> [class members]}}  i.e its keys are other dictinaries that represent
-            === that represent the hall names whose values are key that represent class names who is set to a value of a list of class members
-            === e.g {'MaryHALL':{ 'Jss1':['James Okoli','Jude Nnenna'],'Jss2':['Jam Oli','Ude Nna']},'AnHall':{ 'Ss1':['Ade Oko'],'SS2':['Jam Oli']}}
-            === However this hall is initially empty containing just the names of hall and class but not the members of this class
-            
-            total_students= this is a list of the names of all the students irrespective of their classes
-            
-            hall_limits= this is a list of the the maximum number of students required for each hall. It is computed by the floor division of the total number of 
-            === students by the number of halls used. The sum of the numbers in the list represents the number of students that have been assigned to halls.
-            === since it was a floor division there may be a remainder that is always less than the total number of halls
-            
-            hall_remainder= this a integer that represents the number of students left after the students have been equally assigned to their various halls
-            === It was calcuted by performing a remainder division i.e remaider gotten after the division of the total number of students by the total num. of halls
-            
-Functions:
-            hallsize(hall_name)
-            
-            totalhallsize()
-            
-            def remainder()
-            """
 #Temporary list for data manipulation
 classes = [students_by_class[key][:] for key in students_by_class.keys()]
 # print("classes: ", classes)
@@ -60,7 +24,6 @@ hall_limits = [len(total_students) // len(hall_names) for hall in hall_names]
 hall_remainder = len(total_students) % len(hall_names)
 
 def hallsize(hall_name):
-    
     return sum(len(classe) for classe in halls[hall_name].values())
 
 def totalhallsize():
@@ -106,7 +69,7 @@ import random
 for i in range(len(hall_names)):
     while hallsize(hall_names[i]) < hall_limits[i]:
         for j in range(len(class_names)):
-            if len(classes[j]) != 0 and hallsize(hall_names[i]) < hall_limits[i]:
+            if len(classes[j]) > 0 and hallsize(hall_names[i]) < hall_limits[i]:
                 selected = random.choice(classes[j])
                 # print(classes[j])
                 classes[j].remove(selected)
@@ -163,7 +126,7 @@ def check_sorted_name_hall_index(studentsname,hallname):
     return index
 
 while True:
-    askresponse = input("""How do you want your table to be? 
+    askresponse = input("""How do you want your table to look? 
                         Strictly alphabetical (type: s) or classicaly alpahbeticl (type: c): """)
     if askresponse.lower() in ("s","c"):
         break      
@@ -195,7 +158,6 @@ for hallname,studentnameclasses in students_by_hall_name_and_class.items():
     #print(table)
     table_file=tabulate(table,headers = ["names".title(),"class".title()], tablefmt="grid", showindex= range(1,hallsize(hallname) + 1))
     print(table_file)
-    table_filepath ="C:/Users/hp/Documents/Github/python_folder/examination_placers/tables/hall_"+str(hallname) + ".txt"
+    table_filepath ="C:/Users/hp/Documents/Github/python_folder/Examination_Placers/tables/hall_"+str(hallname) + ".txt"
     with open(table_filepath,"w") as tbf:
         tbf.write(table_file )
-

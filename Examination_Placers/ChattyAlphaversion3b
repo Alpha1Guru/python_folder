@@ -3,7 +3,7 @@ hall_names = ["A","B","C","D","E","F","G","H","I","J","K","L","M",]
 class_names = ["JSS1","JSS2","JSS3","SS1A","SS1B","SS2A","SS2B","SS3A","SS3B",]
 #Storing the names of students by thier class
 students_by_class = {
-    "JSS1": ["jss1", "john", "fatia","mujeeb","helen","absolom",],
+    "JSS1": ["jss1", "john", "fatia","mujeeb","helen","absolom","guy","obi","chizi","collins","meka","ada",'fumi'],
     "JSS2": ["jss2"],
     "JSS3": ["jss3","geoferry","taiwo",],
     "SS1A": ["ss1a","horla","olaf", "rati","jarimat",],
@@ -66,17 +66,20 @@ while True:
 
 #Splits the students randomly in halls
 import random
+j = 0
 for i in range(len(hall_names)):
     while hallsize(hall_names[i]) < hall_limits[i]:
-        for j in range(len(class_names)):
-            if len(classes[j]) != 0 and hallsize(hall_names[i]) < hall_limits[i]:
-                selected = random.choice(classes[j])
-                # print(classes[j])
-                classes[j].remove(selected)
-                # print(classes[j])
-                halls[hall_names[i]][class_names[j]].append(selected)
-                halls[hall_names[i]][class_names[j]].sort()
-#     print(hall_names[i],halls[hall_names[i]]);print(hallsize(hall_names[i]))
+        if len(classes[j]) > 0 and hallsize(hall_names[i]) < hall_limits[i]:
+            selected = random.choice(classes[j])
+            print(class_names[j])
+            # print(classes[j])
+            classes[j].remove(selected)
+            # print(classes[j])
+            halls[hall_names[i]][class_names[j]].append(selected)
+            halls[hall_names[i]][class_names[j]].sort()
+        j=j+1
+        if j == len(class_names): j = 0
+    # print(hall_names[i],halls[hall_names[i]]);print(hallsize(hall_names[i]))
 # print("remainder",remainder(),"\t")
 
 #Takes care students left unassigned after the first process of assigning equally into each hall
@@ -126,7 +129,7 @@ def check_sorted_name_hall_index(studentsname,hallname):
     return index
 
 while True:
-    askresponse = input("""How do you want your table to be? 
+    askresponse = input("""How do you want your table to look? 
                         Strictly alphabetical (type: s) or classicaly alpahbeticl (type: c): """)
     if askresponse.lower() in ("s","c"):
         break      
@@ -158,6 +161,6 @@ for hallname,studentnameclasses in students_by_hall_name_and_class.items():
     #print(table)
     table_file=tabulate(table,headers = ["names".title(),"class".title()], tablefmt="grid", showindex= range(1,hallsize(hallname) + 1))
     print(table_file)
-    table_filepath ="examination_placers/tables/hall_"+str(hallname) + ".txt"
+    table_filepath ="C:/Users/hp/Documents/Github/python_folder/Examination_Placers/tables/hall_"+str(hallname) + ".txt"
     with open(table_filepath,"w") as tbf:
         tbf.write(table_file )
