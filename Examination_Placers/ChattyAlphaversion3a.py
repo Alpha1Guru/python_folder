@@ -1,11 +1,11 @@
 #Creation of names for halls and class
 hall_names = ["A","B","C","D","E","F","G","H","I","J","K","L","M",]
 class_names = ["JSS1","JSS2","JSS3","SS1A","SS1B","SS2A","SS2B","SS3A","SS3B",]
-#Storing the names of students by thier class
+#Storing the names of students by their class
 students_by_class = {
-    "JSS1": ["jss1", "john", "fatia","mujeeb","helen","absolom",],
+    "JSS1": ["jss1", "john", "fatima","mujeeb","helen","absalom",],
     "JSS2": ["jss2"],
-    "JSS3": ["jss3","geoferry","taiwo",],
+    "JSS3": ["jss3","geoffrey","taiwo",],
     "SS1A": ["ss1a","horla","olaf", "rati","jarimat",],
     "SS1B": ["ss1b","yemi","alade","okoli","micheal","henry","gloria","peace","magarita","toyin",],
     "SS2A": ["ss2a","emmma","latifa","baba","tola",],
@@ -32,7 +32,7 @@ def totalhallsize():
 def remainder():
     return len(total_students) - totalhallsize()
 
-#Checks wether a user wants to specifcally input the hall limits of each hall
+#Checks wether a user wants to specifically input the hall limits of each hall
 from verifier import verint as vi
 while True:
     response = input("Do you want to define the hall limits yourself? [Y/N]: ")
@@ -127,7 +127,7 @@ def check_sorted_name_hall_index(studentsname,hallname):
 
 while True:
     askresponse = input("""How do you want your table to look? 
-                        Strictly alphabetical (type: s) or classicaly alpahbeticl (type: c): """)
+                        Strictly alphabetical (type: s) or by class (type: c): """)
     if askresponse.lower() in ("s","c"):
         break      
     elif askresponse.lower() not in ("s","c"):

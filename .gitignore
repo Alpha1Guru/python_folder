@@ -1,0 +1,4 @@
+*.venv
+*.gitgnore
+*.cspell
+/__pycache__

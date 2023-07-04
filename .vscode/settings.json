@@ -1,0 +1,16 @@
+{
+    "cSpell.words": [
+        
+    ],
+    "cSpell.ignoreWords": [
+        
+    ],
+    "cSpell.customDictionaries": {
+        "custom-dictionary-workspace": {
+            "name": "custom-dictionary-workspace",
+            "path": "${workspaceFolder:python_folder}/.cspell/custom-dictionary-workspace.txt",
+            "addWords": true,
+            "scope": "workspace"
+        }
+    },
+}
