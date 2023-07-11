@@ -1,3 +1,6 @@
+import numpy as np
+import pandas as pd
+
 """Introduction/Overview by Chatgpt...
 ...
 ...
@@ -140,7 +143,7 @@ for ihall in range(len(hall_names)):
             # print(classes[jclas])
             halls[hall_names[ihall]][class_names[jclas]].append(selected)
             halls[hall_names[ihall]][class_names[jclas]].sort()
-        jclas=jclas+1
+        jclas = jclas + 1
         if jclas == len(class_names): jclas = 0
 #     print(hall_names[ihall],halls[hall_names[ihall]]);print(hallsize(hall_names[ihall]))
 # print("remainder",remainder(),"\t")

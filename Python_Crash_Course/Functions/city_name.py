@@ -9,3 +9,5 @@ city_country("Lagos")
 city_country("Chicago","United States")
 
 city_country(city_name="Morocco",country_name="india")
+get_city_and_country = city_country
+get_city_and_country("Moorogbo") 

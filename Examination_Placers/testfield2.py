@@ -1,48 +1,82 @@
+import numpy as np
+import pandas as pd
+
 """Introduction/Overview by Chatgpt...
 ...
 ...
 """
-#Creation of names for halls and class
-"""" This first lines of code has to do with the collection of inputs needed for the code to work.
-This inputs are the names of the halls to be created and the names of the classes to be shared.
-Here the individual memebers of the classes,the names of classes and the names of halls  where manually inputed in the code.
-Future update will include user inputed data(i.e hall names, class names and class members) which will be stored in a database.
-The database will enhance easy manipulation of data (updating the names of classes, class members and halls , deletion, insertion,etc)"""
-
+# Creation of names for halls and class
+""" This first lines of code has to do with the collection of inputs needed 
+for the code to work. This inputs are the names of the halls to be created and 
+the names of the classes to be shared. Here the individual members of the 
+classes,the names of classes and the names of halls  where manually inputted 
+in the code. Future update will include user inputted data(i.e hall names, 
+class names and class members) which will be stored in a database. The 
+database will enhance easy manipulation of data (updating the names of classes,
+class members and halls , deletion, insertion, etc)
+"""
+def get_hall_names():
+    pass
 hall_names = ["A","B","C","D","E","F","G","H","I","J","K","L","M",]
 class_names = ["JSS1","JSS2","JSS3","SS1A","SS1B","SS2A","SS2B","SS3A","SS3B",]
-#Storing the names of students by thier class
+#Storing the names of students by their class
 students_by_class = {
-    "JSS1": ["jss1", "john", "fatia","mujeeb","helen","absolom",],
+    "JSS1": ["jss1", "john", "fatima","mujeeb","helen","absalom",],
     "JSS2": ["jss2"],
-    "JSS3": ["jss3","geoferry","taiwo",],
+    "JSS3": ["jss3","geoffrey","taiwo",],
     "SS1A": ["ss1a","horla","olaf", "rati","jarimat",],
-    "SS1B": ["ss1b","yemi","alade","okoli","micheal","henry","gloria","peace","magarita","toyin",],
+    "SS1B": ["ss1b","yemi","alade","okoli","micheal","henry","gloria","peace",
+             "magarita","toyin",],
     "SS2A": ["ss2a","emmma","latifa","baba","tola",],
     "SS2B": ["ss2b", "marvellous"],
     "SS3A": ["ss3a","bolu","kante","tochi","kosi",],
     "SS3B": ["ss3b","bade","xenox","kuma",]
 }
-
+class_file = "class.xlsx"
+with pd.ExcelWriter(class_file) as xfile:
+    for class_name, class_members in students_by_class.items():
+        data= {class_name.upper():[name.title() for name in class_members]}
+        sheet = pd.DataFrame(data)
+        sheet.to_excel(
+                xfile,
+                sheet_name=class_name.upper() + " Class", 
+                index= (i+1 for i in range(len(class_members))))
 """SOME VARIABLES AND FUNCTIONS USED
 ---=================================---
 Variables:
-            classes= this variable is a list of lists. The elements of the list are lists/(class) that contains names of class members
-            === its use is to manipulate the students_by_class dictionary without affecting the dictionary itself.
+            classes= this variable is a list of lists. The elements of the list
+            are lists/(class) that contains names of class members its use is 
+            to manipulate the students_by_class dictionary without affecting 
+            the dictionary itself.
             
-            halls= this is a dictionary whose structure is {hall name=> {class name=> [class members]}}  i.e its keys are other dictinaries that represent
-            === that represent the hall names whose values are key that represent class names who is set to a value of a list of class members
-            === e.g {'MaryHALL':{ 'Jss1':['James Okoli','Jude Nnenna'],'Jss2':['Jam Oli','Ude Nna']},'AnHall':{ 'Ss1':['Ade Oko'],'SS2':['Jam Oli']}}
-            === However this hall is initially empty containing just the names of hall and class but not the members of this class
+            halls= this is a dictionary whose structure is 
+            {hall name=> {class name=> [class members]}}  i.e its keys are 
+            other dictionaries that represent that represent the hall names 
+            whose values are key that represent class names who is set to a 
+            value of a list of class members 
+            e.g {'MaryHALL':{ 'Jss1':['James Okoli','Jude Nnenna'],
+                                'Jss2':['Jam Oli','Ude Nna']},
+                 'AnHall':{ 'Ss1':['Ade Oko'],
+                            'SS2':['Jam Oli']}} 
+            However this hall is initially empty containing just the names of 
+            hall and class but not the members of this class
             
-            total_students= this is a list of the names of all the students irrespective of their classes
+            total_students= this is a list of the names of all the students 
+            irrespective of their classes
             
-            hall_limits= this is a list of the the maximum number of students required for each hall. It is computed by the floor division of the total number of 
-            === students by the number of halls used. The sum of the numbers in the list represents the number of students that have been assigned to halls.
-            === since it was a floor division there may be a remainder that is always less than the total number of halls
+            hall_limits= this is a list of the the maximum number of students 
+            required for each hall. It is computed by the floor division of 
+            the total number of  students by the number of halls used. The sum
+            of the numbers in the list represents the number of students that 
+            have been assigned to halls. since it was a floor division there 
+            may be a remainder that is always less than the total number of 
+            halls
             
-            hall_remainder= this a integer that represents the number of students left after the students have been equally assigned to their various halls
-            === It was calcuted by performing a remainder division i.e remaider gotten after the division of the total number of students by the total num. of halls
+            hall_remainder= this a integer that represents the number of 
+            students left after the students have been equally assigned to 
+            their various halls It was calculated by performing a remainder 
+            division i.e remainder gotten after the division of the total 
+            number of students by the total num. of halls
             
 Functions:
             hallsize(hall_name)
@@ -71,7 +105,7 @@ def totalhallsize():
 def remainder():
     return len(total_students) - totalhallsize()
 
-#Checks wether a user wants to specifcally input the hall limits of each hall
+#Checks wether a user wants to specifically input the hall limits of each hall
 from verifier import verint as vi
 while True:
     response = input("Do you want to define the hall limits yourself? [Y/N]: ")
@@ -92,8 +126,10 @@ while True:
                 Here are what you inputted:
                     Total = {sum(hall_limits)}
                     Total no of students = {len(total_students)}''')
-                if sum(hall_limits) < len(total_students): print("Your hall limits were {} less than the Total number of students! \n".format(abs(num_not_assigned)))
-                elif sum(hall_limits) > len(total_students): print("Your hall limits were {} more than the Total number of students! \n".format(abs(num_not_assigned)))
+                if sum(hall_limits) < len(total_students): 
+                    print("Your hall limits were {} less than the Total number of students! \n".format(abs(num_not_assigned)))
+                elif sum(hall_limits) > len(total_students): 
+                    print("Your hall limits were {} more than the Total number of students! \n".format(abs(num_not_assigned)))
                 for ihall in range(len(halls)):
                     print(hall_names[ihall]," = ", hall_limits[ihall])
                 print("TRY AGAIN!!\n")
@@ -110,7 +146,7 @@ for ihall in range(len(hall_names)):
     while hallsize(hall_names[ihall]) < hall_limits[ihall]:
         if len(classes[jclas]) > 0 and hallsize(hall_names[ihall]) < hall_limits[ihall]:
             selected = random.choice(classes[jclas])
-            print(class_names[jclas])
+            # print(class_names[jclas])
             # print(classes[jclas])
             classes[jclas].remove(selected)
             # print(classes[jclas])
@@ -169,7 +205,7 @@ def check_sorted_name_hall_index(studentsname,hallname):
 
 while True:
     askresponse = input("""How do you want your table to be? 
-                        Strictly alphabetical (type: s) or classicaly alpahbeticl (type: c): """)
+                        Strictly alphabetical (type: s) or by class (type: c): """)
     if askresponse.lower() in ("s","c"):
         break      
     elif askresponse.lower() not in ("s","c"):
@@ -189,18 +225,11 @@ for istddata in range(len(students_data)):
         students_by_hall_name_and_class[hall].append([students_data[istddata]["name"],students_data[istddata]["class"]])
 # print(students_by_hall_name_and_class)
 
-#prints table for each hall
-for hallname,studentnameclasses in students_by_hall_name_and_class.items():
-    print(f"\nHall table for {hallname.title()}:")
-    table =[[nameclass[0].title(),nameclass[1].upper()] for nameclass in studentnameclasses ]
-    # e.g:
-    # table                     = [['Gloria'      , 'SS1B'        ], ['Ss3A'        , 'SS3A'        ] ,['Kuma'        , 'SS3B'        ]]
-    # |~represents hall names~| = [[~nameclass[0]~, ~nameclass[1]~], [~nameclass[0]~, ~nameclass[1]~] ,[~nameclass[0]~, ~nameclass[1]~]]
-    #                             |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ studentnameclasses ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
-    #print(table)
-    table_file=tabulate(table,headers = ["names".title(),"class".title()], tablefmt="grid", showindex= range(1,hallsize(hallname) + 1))
-    print(table_file)
-    table_filepath ="C:/Users/hp/Documents/Github/python_folder/examination_placers/tables/hall_"+str(hallname) + ".txt"
-    with open(table_filepath,"w") as tbf:
-        tbf.write(table_file )
-
+hall_file = "hall_placement.xlsx"
+with pd.ExcelWriter(hall_file) as xfile:
+    for hallname,studentnameclasses in students_by_hall_name_and_class.items():
+        d = {"Name": [nameclass[0].title() for nameclass in studentnameclasses ], "Class": [nameclass[1] for nameclass in studentnameclasses]}
+        # print(d)
+        sheet = pd.DataFrame(d, index=(i+1 for i in range(len(studentnameclasses))) )
+        # print(sheet)
+        sheet.to_excel(xfile, sheet_name=hallname + " Hall")
