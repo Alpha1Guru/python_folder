@@ -27,5 +27,5 @@ def remove_duplicate(data):
     elif type(data)==type((1,2,3)):
         new_data = list(data)   
         return tuple(rm_dp_list(new_data))
-text = tuple("111134441111666666555")
+text = str("111134441111666666555")
 print(remove_duplicate(text))

@@ -1,4 +1,14 @@
-def make_album(artist_name, album_title,no_of_tracks= ""):
+def make_album(artist_name: str, album_title: str, no_of_tracks= ""):
+    """_summary_
+
+    Args:
+        artist_name (str): artist name
+        album_title (str): Title of the album
+        no_of_tracks (str, optional): _description_. Defaults to "".
+
+    Returns:
+        _type_: _description_
+    """    
     music_album = {"artist": artist_name,
                     "album title": album_title,}
     if no_of_tracks:
