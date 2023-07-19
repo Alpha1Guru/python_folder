@@ -1,5 +1,6 @@
 from random import choice
 import pandas as pd
+from verify import verify
 
 # Output file path
 output_file = "exam_formation.xlsx"

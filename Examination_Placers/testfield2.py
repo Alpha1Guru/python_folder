@@ -1,24 +1,72 @@
 import numpy as np
 import pandas as pd
+from verifier4 import verPosInt as vi
 
-"""Introduction/Overview by Chatgpt...
-...
-...
-"""
-# Creation of names for halls and class
-""" This first lines of code has to do with the collection of inputs needed 
-for the code to work. This inputs are the names of the halls to be created and 
-the names of the classes to be shared. Here the individual members of the 
-classes,the names of classes and the names of halls  where manually inputted 
-in the code. Future update will include user inputted data(i.e hall names, 
-class names and class members) which will be stored in a database. The 
-database will enhance easy manipulation of data (updating the names of classes,
-class members and halls , deletion, insertion, etc)
-"""
+p1 = "~"*3
+p2 = "."*3
+p3 = u"\u10FB"
+class_file = "class.xlsx"
+
+def get_class_names():
+    """Get the names of classes
+    """
+    print(f"\n{p1}GIVE ME THE NAMES OF CLASSES IN ASCENDING ORDER{p1}"
+          f"\n{p2}Type 0 to quit")
+    class_names = []
+    while class_name := input(f"{p3} Class Name: ") != "0":
+        class_names.append(class_name.upper())
+    print(f"{p2}Classes are:")
+    for name_no, class_name in enumerate(class_names):
+        print(f"\t{name_no}. {class_name}")
+    mistake = input("Made a mistake? [y/n]: ")
+    if mistake == "y":
+        get_class_names()
+    print("Done!\n")
+    return class_names
+
+def get_students_by_class(class_names: list) -> dict:
+    """maps the list of class_names to class members
+
+    Args:
+        class_names (list): A list of strings which represents names of classes
+
+    Returns:
+        dict: Dictionary containing the class names mapped to class members
+    """
+    def get_students(class_name: str, no_of_members: int):
+        print(f"~~~GIVE ME THE MEMBERS OF {class_name.upper()}~~~")
+        return [input(f"{p3} Member: ") for i_member in range(no_of_members)]
+    
+    students_by_class = {}
+    for class_name in class_names:
+        no_of_members: int = int(vi(input(
+            f"{p2} Number of Members of {class_name}: ")))
+        students_by_class[class_name] = get_students(class_name, no_of_members)
+    return students_by_class
+
+def save_class_data_to_excel(class_file: str, students_by_class: dict):
+    """Save class Details to an excel file
+
+    Args:
+        class_file (str): path to excel file
+        students_by_class (dict): Dictionary containing class names a
+    """    
+    with pd.ExcelWriter(class_file) as xfile:
+        for class_name, class_members in students_by_class.items():
+            data= {class_name.upper():[name.title() for name in class_members]}
+            sheet = pd.DataFrame(data, index= (i+1 for i in range(len(class_members))), columns=["S/N","Names"])
+            sheet.to_excel(xfile, sheet_name=class_name.upper() + " Class")
+
 def get_hall_names():
     pass
+def assign_to_hall():
+    pass
+def save_hall_data_to_excel():
+    pass
+
 hall_names = ["A","B","C","D","E","F","G","H","I","J","K","L","M",]
 class_names = ["JSS1","JSS2","JSS3","SS1A","SS1B","SS2A","SS2B","SS3A","SS3B",]
+
 #Storing the names of students by their class
 students_by_class = {
     "JSS1": ["jss1", "john", "fatima","mujeeb","helen","absalom",],
@@ -35,12 +83,11 @@ students_by_class = {
 class_file = "class.xlsx"
 with pd.ExcelWriter(class_file) as xfile:
     for class_name, class_members in students_by_class.items():
-        data= {class_name.upper():[name.title() for name in class_members]}
-        sheet = pd.DataFrame(data)
-        sheet.to_excel(
-                xfile,
-                sheet_name=class_name.upper() + " Class", 
-                index= (i+1 for i in range(len(class_members))))
+        data= {"Names":[name.title() for name in class_members]}
+        sheet = pd.DataFrame(data,
+                             index= (i+1 for i in range(len(class_members)))
+                             )
+        sheet.to_excel(xfile, sheet_name=class_name.upper() + " Class")
 """SOME VARIABLES AND FUNCTIONS USED
 ---=================================---
 Variables:
@@ -71,23 +118,17 @@ Variables:
             have been assigned to halls. since it was a floor division there 
             may be a remainder that is always less than the total number of 
             halls
-            
-            hall_remainder= this a integer that represents the number of 
-            students left after the students have been equally assigned to 
-            their various halls It was calculated by performing a remainder 
-            division i.e remainder gotten after the division of the total 
-            number of students by the total num. of halls
+
+            totalhallsize()
             
 Functions:
             hallsize(hall_name)
-            
-            totalhallsize()
             
             def remainder()
             """
 #Temporary list for data manipulation
 classes = [students_by_class[key][:] for key in students_by_class.keys()]
-# print("classes: ", classes)
+
 #Creation of halls and their class divisions
 halls = {hall_name: {classe: [] for classe in class_names} for hall_name in hall_names}
 
@@ -106,7 +147,6 @@ def remainder():
     return len(total_students) - totalhallsize()
 
 #Checks wether a user wants to specifically input the hall limits of each hall
-from verifier import verint as vi
 while True:
     response = input("Do you want to define the hall limits yourself? [Y/N]: ")
     if response == "Y":
@@ -154,10 +194,8 @@ for ihall in range(len(hall_names)):
             halls[hall_names[ihall]][class_names[jclas]].sort()
         jclas=jclas+1
         if jclas == len(class_names): jclas = 0
-#     print(hall_names[ihall],halls[hall_names[ihall]]);print(hallsize(hall_names[ihall]))
-# print("remainder",remainder(),"\t")
 
-#Takes care students left unassigned after the first process of assigning equally into each hall
+# Deals with the remainder
 for ihall in range(len(hall_names)):
     if remainder() == 0:
         break
@@ -168,30 +206,16 @@ for ihall in range(len(hall_names)):
             random_class = random.choice(classes)
             jclas = classes.index(random_class)
         selected = random.choice(random_class)
-        # print(random_class)
         halls[hall_names[ihall]][class_names[jclas]].append(selected)
         halls[hall_names[ihall]][class_names[jclas]].sort()
         random_class.remove(selected)
-        # print(random_class)
-#     print(hall_names[ihall],halls[hall_names[ihall]]);print(hallsize(hall_names[ihall]))
-# print("remainder",remainder())
-# print(halls)
 
 from tabulate import*
-
-# students_data = []
-# for hallname  in halls.keys():
-#     for classname,classemembers in halls[hallname].items():
-#         if len(classemembers) != 0:
-#             for member in classemembers:
-#                 students_data.append({"name":member,"class":classname,"hall":hallname})
-#         elif len(classemembers) == 0:
-#             continue
-
-students_data = [{"name":member,"class":classname,"hall":hallname} for hallname in halls.keys() for classname,classmembers in halls[hallname].items() if len(classmembers) != 0 for member in classmembers ]
-# print(students_data)        
-# print(len(students_data))
-
+# Saving to file
+students_data = [{"name":member,"class":classname,"hall":hallname} 
+                 for hallname in halls.keys() 
+                 for classname,classmembers in halls[hallname].items() 
+                 if len(classmembers) != 0 for member in classmembers ]
 students_by_hall_name_and_class = {}
 students_by_hall_name_only = {}
 

@@ -1,30 +1,38 @@
 #function to check for unwanted characters (non-number char)in text
-def check_unwanted(text,valid_chars=".-+0123456789", only_negative = False, only_positive = False):
-    if text == "":#Prevents user from giving and empty string
-        result = True # result becomes true if text is an empty string
-        return result
-    elif only_negative:
-        for i in range(len(text)):# loops through the text 
-            if text[i] in valid_chars and text.count(".") <= 1 and "+" not in text and text[0] == "-" and text != '-' and "-" not in text[1:]: # if the character is in valid char, decimal point less than 2, absence of plus sign in text, minus sign MUST BE PRESENT - but at the firt position only (or not in any other position save the first)
-                result = False # result is false for now
-            else:
-                result = True # result becomes True
-                break #The loop breaks immediately when result becomes True
-    elif only_positive:
-        for i in range(len(text)): # loops through the text 
-            if text[i] in valid_chars and text.count(".") <= 1 and "-" not in text and text != "+" and "+" not in text[1:]: # if the character is in valid char, decimal point less than 2, absence of minus sign in text, plus sign MAYBE PRESENT - but only at the firt position (or not in any other position save the first)
-                result = False # result is false for now
-            else:
-                result = True # result becomes True
-                break #The loop breaks immediately when result becomes True
-    else: # but if only_positive and only_negative are both false and the string is not empty then,
-        for i in range(len(text)):# loops through the text 
-            if text[i] in valid_chars and text.count(".") <= 1 and "+" not in text[1:] and "-" not in text[1:]: # if the character is in valid char, decimal point less than 2, minus and plus sign MAYBE PRESENT - but only at the firt position (or not in any other position save the first)
-                result = False # result is false for now
-            else: # if more than one decimal points or a non number character
-                result = True # result becomes True
-                break #The loop breaks immediately when result becomes True
-        
+def check_unwanted(text,
+                valid_chars=".-+0123456789",
+                only_negative= False,
+                empty_allowed= False,
+                only_numbers=True,
+                ):
+    result = False
+    # Prevents user from giving an empty string if empty values are invalid.
+    if not text:
+        if not empty_allowed:
+            result = True  # result become True if empty values are invalid
+        elif empty_allowed:
+            result = False  # result become False if empty values are valid
+        return result  # No need checking remaining characters
+    
+    # Result is equal true if the text passes any of the test.
+    if only_numbers:
+        if text == "-" or text == "+":
+            result = True
+        if text == ".":
+            result = True
+        if text.count(".") > 1: # test of number of decimal point
+            result = True
+        if "-" in text[1:] or "+" in text[1:]:
+            result = True
+        if only_negative: # if checking for a negative number
+            if text[0] != "-": # first character is not a minus sign?
+                result = True
+
+    # Result equals true if an invalid character is found.
+    for i in range(len(text)):
+        if  not text[i] in valid_chars: 
+            result = True
+            break
     return result
 
 def prompt(num,type):
@@ -60,10 +68,10 @@ def verNegNum(NegNum):
 
 def verPosNum(PosNum):
     valid_chars="+.0123456789"
-    result=check_unwanted(PosNum,valid_chars,only_positive=True) #checks the text as an integer and not a float
+    result=check_unwanted(PosNum,valid_chars,) #checks the text as an integer and not a float
     while result == True:
         PosNum = prompt(PosNum,"POSITIVE NUMBER")
-        result=check_unwanted(PosNum,valid_chars,only_positive=True) #checks the text as an integer and not a float
+        result=check_unwanted(PosNum,valid_chars,) #checks the text as an integer and not a float
     return PosNum #returns the correct(ed) text
 
 def verNegInt(NegInt):
@@ -76,17 +84,17 @@ def verNegInt(NegInt):
 
 def verPosInt(PosInt):
     valid_chars="+0123456789"
-    result=check_unwanted(PosInt,valid_chars,only_positive=True) #checks the text as an integer and not a float
+    result=check_unwanted(PosInt,valid_chars,) #checks the text as an integer and not a float
     while result == True:
         PosInt = prompt(PosInt,"POSITIVE INTEGER")
-        result=check_unwanted(PosInt,valid_chars,only_positive=True) #checks the text as an integer and not a float
+        result=check_unwanted(PosInt,valid_chars,) #checks the text as an integer and not a float
     return PosInt #returns the correct(ed) text
 
 if __name__ == "__main__":
     while True:
     #     user = verFloat(input("Using VerFloat to check float numbers: ").strip())
     #     print(user,"is valid")
-    #     user = verInt(input("Using VerInt to check Onlyinteger numbers: ").strip())
+    #     user = verInt(input("Using VerInt to check Only integer numbers: ").strip())
     #     print(user," is valid")
     #     user = verNegNum(input("Using VerNegNum to check Only Negative Numbers: ").strip())
     #     print(user,"is valid")
