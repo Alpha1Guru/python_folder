@@ -1,4 +1,4 @@
-from verifier import verify
+from verifier4 import verPosInt as vi
 # Mr Ifeanyi's code for examanatuon distribution
 
 #Creating the names of the halls and names of class names
@@ -90,7 +90,7 @@ while True:
         hall_limits = []
         while sum(hall_limits) != len(total_students):
             for i in range(len(hall_names)):
-                hall_limit = int(verify(input(f'''Tell me the hall limit of {hall_names[i]}: ''')))
+                hall_limit = int(vi(input(f'''Tell me the hall limit of {hall_names[i]}: ''')))
                 hall_limits.append(hall_limit)
             if sum(hall_limits) != len(total_students):
                 print(f'''Your input does not match yhe total number of the students.

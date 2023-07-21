@@ -170,74 +170,75 @@ verAlpha = verify
 verPunc = verify
 verAlphaNum = verify
 verChar = verify
-while True:
-    # user = verFloat(
-    #     input("Using VerInt to check Only Float numbers: ").strip(),
-    #     decimal=True)
+if __name__ == "__main__":
+    while True:
+        # user = verFloat(
+        #     input("Using VerInt to check Only Float numbers: ").strip(),
+        #     decimal=True)
+        # print(("empty" if not user else user) ,"is valid")
+
+        # user = verInt(
+        #     input("Using VerInt to check Only integer numbers: ").strip(),
+        #     decimal=False)
+        # print(("empty" if not user else user) ,"is valid")
+
+        # user = verNegNum(
+        #     input("Using VerNegNum to check Only Negative Numbers: ").strip(),
+        #     decimal=True, only_negative=True)
+        # print(("empty" if not user else user) ,"is valid")
+
+        # user = verPosNum(
+        #     input("Using verPosNum to check Only Positive Numbers: ").strip(),
+        #     decimal=True, only_positive=True)
+        # print(("empty" if not user else user) ,"is valid")
+
+        # user = verNegInt(
+        #     input("Using verNegInt to check Only Negative Integer: "),
+        #     only_negative=True, decimal=False, 
+        #     invalid_message= ("Come on, You didn't give a value!",
+        #                       "Come on, a Negative Integer!"))
+        # print(("empty" if not user else user) ,"is valid")
+
+        # user = verAlpha(
+        #         input("Using verAlpha to check Only letters: "),
+        #         letters=True, empty_allowed=False, 
+        #         numbers=False,
+        #         invalid_message=(
+            #         "No Not an empty value!",
+        #             "Your input contain invalid characters that are not letters"
+        #               ),
+        #         ignore=(".",",","!"," ")
+        #         )
+        # print(("empty" if not user else user) ,"is valid")
+
+        # user = verPunc(
+        #     input("Using verPosInt to check Only Punctuations: "),
+        #     decimal=False, empty_allowed=True,
+        #     punctuation=True, numbers=False, ignore=" "
+        #     )
+        # print(("empty" if not user else user) ,"is valid")
+        
+        user = verChar(
+            input("Using verChar to check All characters (Nothing really!!): "),
+            every=True,
+            invalid_message=("No empty value please", "How can you be wrong?!"),
+            remove=("a"))
+        print(("empty" if not user else user) ,"is valid") 
+        
+
+        
+    # PROBLEMS:
+    # ---------
+    # # Zero problem is -0 negative? or +0 positive?
+
+    ## No Error was raise when both letters and numbers are equal to false.
+    ## It defaulted to numbers instead 
+    # user = verAlpha( 
+    #             input("Using verAlpha to check Only letters: "),
+    #             letters=False, empty_allowed=False, 
+    #             numbers=False,
+    #             invalid_message=("No Not an empty value!",
+    #                     "Your input contain invalid characters that are not letters"
+    #                     )
+    #             )
     # print(("empty" if not user else user) ,"is valid")
-
-    # user = verInt(
-    #     input("Using VerInt to check Only integer numbers: ").strip(),
-    #     decimal=False)
-    # print(("empty" if not user else user) ,"is valid")
-
-    # user = verNegNum(
-    #     input("Using VerNegNum to check Only Negative Numbers: ").strip(),
-    #     decimal=True, only_negative=True)
-    # print(("empty" if not user else user) ,"is valid")
-
-    # user = verPosNum(
-    #     input("Using verPosNum to check Only Positive Numbers: ").strip(),
-    #     decimal=True, only_positive=True)
-    # print(("empty" if not user else user) ,"is valid")
-
-    # user = verNegInt(
-    #     input("Using verNegInt to check Only Negative Integer: "),
-    #     only_negative=True, decimal=False, 
-    #     invalid_message= ("Come on, You didn't give a value!",
-    #                       "Come on, a Negative Integer!"))
-    # print(("empty" if not user else user) ,"is valid")
-
-    # user = verAlpha(
-    #         input("Using verAlpha to check Only letters: "),
-    #         letters=True, empty_allowed=False, 
-    #         numbers=False,
-    #         invalid_message=(
-        #         "No Not an empty value!",
-    #             "Your input contain invalid characters that are not letters"
-    #               ),
-    #         ignore=(".",",","!"," ")
-    #         )
-    # print(("empty" if not user else user) ,"is valid")
-
-    # user = verPunc(
-    #     input("Using verPosInt to check Only Punctuations: "),
-    #     decimal=False, empty_allowed=True,
-    #     punctuation=True, numbers=False, ignore=" "
-    #     )
-    # print(("empty" if not user else user) ,"is valid")
-    
-    user = verChar(
-        input("Using verChar to check All characters (Nothing really!!): "),
-        every=True,
-        invalid_message=("No empty value please", "How can you be wrong?!"),
-        remove=("a"))
-    print(("empty" if not user else user) ,"is valid") 
-    
-
-    
-# PROBLEMS:
-# ---------
-# # Zero problem is -0 negative? or +0 positive?
-
-## No Error was raise when both letters and numbers are equal to false.
-## It defaulted to numbers instead 
-# user = verAlpha( 
-#             input("Using verAlpha to check Only letters: "),
-#             letters=False, empty_allowed=False, 
-#             numbers=False,
-#             invalid_message=("No Not an empty value!",
-#                     "Your input contain invalid characters that are not letters"
-#                     )
-#             )
-# print(("empty" if not user else user) ,"is valid")

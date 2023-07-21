@@ -43,7 +43,7 @@ def totalhallsize():
 def remainder():
     return len(total_students) - totalhallsize()
 #user inputs
-from verifier import verint as vi
+from verifier4 import verPosInt as vi
 while True:
     response = input("Do you want to define the hall limits yourself? [Y/N]: ")
     if response == "Y":
