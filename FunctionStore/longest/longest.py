@@ -1,4 +1,16 @@
-def longest(a1, a2):
+def longest(a1: str, a2: str) -> str:
+    """Take 2 strings s1 and s2 
+    including only letters from a to z. 
+    Return a new sorted string, the longest possible, 
+    containing distinct letters - each taken only once - coming from s1 or s2.
+
+    Args:
+        a1 (str): any string
+        a2 (str): any string
+
+    Returns:
+        str: a new sorted string of distinct letters from adding a1 and a2
+    """    
     longest_list = sorted(set(a1).union(set(a2)))
     longest_str = ""
     for char in longest_list:

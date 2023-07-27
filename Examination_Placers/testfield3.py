@@ -1,29 +1,45 @@
 import numpy as np
 import pandas as pd
 from verifier4 import verPosInt as vi
+from verifier4 import verEmpty as verEmpty
+import string
 
+""" Yet to Handle duplicates
+    Regex regular expression for handling first names and last names
+    correcting p1 and p2 misplacement"""
 p1 = "~"*3
 p2 = "."*3
 p3 = u"\u10FB"
 class_file = "test_class.xlsx"
+val_chr_ms: tuple = (string.ascii_letters + string.whitespace + string.digits,
+                    "Just letters and numbers")
+val_chr_ms_h_names: tuple = (string.ascii_letters + string.whitespace,
+                          "Just letters")
 
-# Under construction
-def correct_mistakes(mistake: str, func, *args, **kwargs):
-    """Attempts to correct user inputs by rerunning a function
+#Under construction
+def made_a_mistake(func, *args, **kwargs):
+    def func_type():
+        if args:
+            if kwargs:
+                return func(*args, **kwargs)
+            else:
+                return func(*args)
+        elif kwargs:
+            return func(**kwargs)
+        else:
+            return func()
 
-    Args:
-        mistake (str):should be "y" or "n"
-        func (function): _description_
-    """
-    if mistake.lower() == "y":
-        func(*args, *kwargs)
-    elif mistake.lower() == "n":
-        print("Okay!")
-    else:
-        print("Didn't Catch that")
-        correct_mistakes(mistake)
-    pass
-    
+    while True:
+        mistake = input("Made a mistake? [y/n]: ").strip()
+        if mistake.lower() == "y":
+            return func_type()
+        elif mistake.lower() == "n":
+            print("Done!\n")
+            return None
+            break
+        else:
+            print("Didn't catch that")
+
 def get_class_names() -> list:
     """Get the names of classes
     """
@@ -31,26 +47,22 @@ def get_class_names() -> list:
           f"\n{p2}Type 0 when Done")
     class_names = []
     count = 1
-    class_name = input(f"{p3} {count}. Class Name (Type 0 when Done): ").strip()
+    class_name = verEmpty(input(f"{p3} {count}. Class Name (Type 0 when Done): ").strip(),
+                          valid_chars= val_chr_ms[0],
+                          message=val_chr_ms[1])
     while class_name != "0":
         class_names.append(class_name.upper())
         count += 1
-        class_name = input(f"{p3} {count}. Class Name (Type 0 when Done): ").strip()
+        class_name = verEmpty(input(f"{p3} {count}. Class Name (Type 0 when Done): ").strip(),
+                          valid_chars= val_chr_ms[0],
+                          message=val_chr_ms[1])
+    
+    #TBD for confirmation    
     print(f"{p2}Classes are:")
     for name_no, class_name in enumerate(class_names):
         print(f"\t{name_no+1}. {class_name}")
-    #Validation may need a function for this
-    while True:
-        mistake = input("Made a mistake? [y/n]: ").strip()
-        if mistake == "y":
-            return get_class_names()
-        elif mistake == "n":
-            print("Done!\n")
-            break
-        else:
-            print("Didn't catch that")
-
-    return class_names
+    
+    return made_a_mistake(get_class_names) or class_names
 
 def get_students_by_class(class_names: list) -> dict:
     """maps the list of class_names to class members
@@ -63,7 +75,20 @@ def get_students_by_class(class_names: list) -> dict:
     """
     def get_students(class_name: str, no_of_members: int) -> list:
         print(f"~~~GIVE ME THE MEMBERS OF {class_name.upper()}~~~")
-        return [input(f"{p3} Member: ").strip() for i_member in range(no_of_members)]
+        students_list = []
+        for i_member in range(no_of_members):
+            member = verEmpty(input(f"{i_member + 1}{p3} Member: ").strip(),
+                              valid_chars=val_chr_ms_h_names[0],
+                              message=val_chr_ms_h_names[1]
+                              )
+            students_list.append(member)
+        
+        #TBD for confirmation
+        print(f"{p1} Students for {class_name} are:")
+        for index, student in enumerate(students_list):
+            print(f"{index + 1}{p3} {student}")
+            
+        return made_a_mistake(get_students, class_name, no_of_members) or students_list
     
     students_by_class = {}
     for class_name in class_names:
@@ -100,10 +125,10 @@ def get_actual_classes(students_by_class: dict) -> list:
     Returns:
         list:  a list of the actual classes to work with
     """
-    print(f"{p1}WHICH CLASSES ARE ACTUALLY WRITING THIS EXAM???{p1}"
+    print(f"\n{p1}WHICH CLASSES ARE ACTUALLY WRITING THIS EXAM???{p1}"
           f"\nType y for yes or n for No for The Class")
     actual_working_class = []
-    for class_name, class_members in students_by_class:
+    for class_name, class_members in students_by_class.items():
         response = input(f"{p1}{class_name} (type y or n): ").strip()
         
         #may need a function for this
@@ -114,19 +139,15 @@ def get_actual_classes(students_by_class: dict) -> list:
             if response == "n":
                 break
             else:
-                print("Didn't catch that")
-    # checks if a mistake was made
-    while True:
-        mistake = input("Made a mistake? [y/n]: ").strip()
-        if mistake == "y":
-            return get_actual_classes()
-        elif mistake == "n":
-            print("Done!\n")
-            break
-        else:
-            print("Didn't catch that")
+                print("Didn't catch that\n")
+                response = input(f"{p1} {class_name} (type y or n): ").strip()
+    
+    # TBD for confirmation
+    print(f"{p1} Here are the classes we are working with:")
+    for class_ in actual_working_class:
+        print(f"{p3} {class_}")
 
-    return actual_working_class
+    return made_a_mistake(get_actual_classes, students_by_class) or actual_working_class
                 
                                 
 def get_hall_names()-> list:
@@ -135,41 +156,71 @@ def get_hall_names()-> list:
     print(f"\n{p1}GIVE ME THE NAMES OF HALLS{p1}"
           f"\n{p2}Type 0 when Done")
     hall_names = []
-    hall_name = input(f"{p3} Hall Name (Type 0 when Done): ").strip()
+    hall_name = verEmpty(input(f"{p3} Hall Name (Type 0 when Done): ").strip(),
+                         valid_chars=val_chr_ms[0],
+                         message=val_chr_ms[1]
+                         )
     while hall_name != "0":
         hall_names.append(hall_name.upper())
-        hall_name = input(f"{p3} Hall Name (Type 0 when Done): ").strip()
+        hall_name = verEmpty(input(f"{p3} Hall Name (Type 0 when Done): ").strip(),
+                         valid_chars=val_chr_ms[0],
+                         message=val_chr_ms[1]
+                         )
     print(f"{p2}Halls are:")
+    
+    #TBD for confirmation
     for name_no, hall_name in enumerate(hall_names):
         print(f"\t{name_no+1}. {hall_name}")
     
-    #Validation may need a function, checks whether the user made a mistake
-    while True:
-        mistake = input("Made a mistake? [y/n]: ").strip()
-        if mistake == "y":
-            return get_hall_names()
-        elif mistake == "n":
-            print("Done!\n")
-            break
-        else:
-            print("Didn't catch that")
-    return hall_names
+    return made_a_mistake(get_hall_names) or hall_names
 
 def hall_size(hall_name: str, halls: dict) -> int:  
     return sum(len(class_) for class_ in halls[hall_name].values())
-    pass
 
 def total_hall_size(hall_names: list) -> int:
     return sum(hall_size(hall_name, halls) for hall_name in hall_names)
+
+def remainder(total_students: int, hall_names: list) -> int:
+    return total_students - total_hall_size()
+
+def get_hall_limits(hall_names: list, total_students: int) -> list:
+    """_summary_
+
+    Args:
+        hall_limits (list): _description_
+
+    Returns:
+        list: _description_
+    """
+    hall_limits = [ total_students // len(hall_names) for hall in hall_names]
+    hall_limits = []
+    while sum(hall_limits) != total_students:
+        hall_limits = []
+        num_not_assigned = total_students
+        print("Total number of Students: {}".format(num_not_assigned))
+        for i_hall in range(len(hall_names)):
+            hall_limit = int(vi(input(f"Tell me the hall limit of {hall_names[i_hall]}: ").strip()))
+            hall_limits.append(hall_limit)
+            num_not_assigned-= hall_limit; 
+            if num_not_assigned > 0: print("Number of students left: {}\n".format(num_not_assigned))
+            elif num_not_assigned < 1: print("Number of students left: 0\n")
+        if sum(hall_limits) != total_students:
+            print(f'''Your input does not match the total number of the students.
+            Here are what you inputted:
+                Total = {sum(hall_limits)}
+                Total no of students = {total_students}''')
+            if sum(hall_limits) < total_students: 
+                print("Your hall limits were {} less than the Total number of students! \n".format(abs(num_not_assigned)))
+            elif sum(hall_limits) > total_students: 
+                print("Your hall limits were {} more than the Total number of students! \n".format(abs(num_not_assigned)))
+            for i_hall in range(len(halls)):
+                print(hall_names[i_hall]," = ", hall_limits[i_hall])
+            print("TRY AGAIN!!\n")
+    return hall_limits
+
+def assign_to_halls(hall_names: list)->list:
     pass
 
-def remainder(total_students: list, hall_names: list) -> int:
-    return len(total_students) - total_hall_size()
-    pass
-
-def assign_to_hall():
-   
-    pass
 def save_hall_data_to_excel():
     pass
 
@@ -186,12 +237,12 @@ def store_db(class_file: str):
     classes = get_actual_classes(students_by_class)  #Actual classes to work with
     print(classes)
     
-    hall_names = get_hall_names()
-    halls = {hall_name: {class_: [] for class_ in class_names} for hall_name in hall_names}
-    total_students = [student for students_list in students_by_class.values() for student in students_list]
-    hall_limits = [len(total_students) // len(hall_names) for hall in hall_names]
-    hall_remainder = len(total_students) % len(hall_names)
-
+    # # halls = {hall_name: {class_: [] for class_ in class_names} for hall_name in hall_names}
+    # hall_names = get_hall_names()
+    # total_students = sum(len(students_list) for student in students_list)
+    # hall_limits = get_hall_limits(hall_names, total_students)
+    # hall_remainder = total_students % len(hall_names)
+    # halls = assign_to_halls()
     
 # hall_names = ["A","B","C","D","E","F","G","H","I","J","K","L","M",]
 # class_names = ["JSS1","JSS2","JSS3","SS1A","SS1B","SS2A","SS2B","SS3A","SS3B",]
@@ -342,5 +393,6 @@ def store_db(class_file: str):
 #         sheet = pd.DataFrame(d, index=(i+1 for i in range(len(studentnameclasses))) )
 #         # print(sheet)
 #         sheet.to_excel(xfile, sheet_name=hallname + " Hall")
+
 if __name__ == "__main__":
     store_db(class_file)

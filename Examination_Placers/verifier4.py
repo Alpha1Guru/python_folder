@@ -37,16 +37,16 @@ def check_unwanted(text,
 
 def prompt(num,type):
     if num == "":
-        message = f"\nYou gave an EMPTY value! Please I need a {type} number: "
+        message = f"\nYou gave an EMPTY value! Please I need {type}: "
     elif num != "":
-        message = f"\n'{num}' is NOT A {type} number! Please I need a {type} number: "
+        message = f"\n'{num}' is NOT A {type} number! Please I need {type}: "
     num = input(message)
     return num
 
 def verFloat(decimal):  #fuction checks for correct float or decimal numbers
     result=check_unwanted(decimal) #checks the text in the check_unwanted func
     while result == True:
-        decimal = prompt(decimal,"DECIMAL")
+        decimal = prompt(decimal,"DECIMALS")
         result=check_unwanted(decimal)
     return decimal #returns the correct(ed) text
 
@@ -54,7 +54,7 @@ def verInt(integer): #function verifies for correct integers only!
     valid_chars="-+0123456789"
     result=check_unwanted(integer,valid_chars) #checks the text in the check_unwanted func
     while result == True:
-        integer = prompt(integer,"INTEGER")
+        integer = prompt(integer,"INTEGERS")
         result=check_unwanted(integer)
     return integer #returns the correct(ed) text
 
@@ -62,7 +62,7 @@ def verNegNum(NegNum):
     valid_chars="-.0123456789"
     result=check_unwanted(NegNum,valid_chars,only_negative=True) #checks the text as an integer and not a float
     while result == True:
-        NegNum = prompt(NegNum,"NEGATIVE NUMBER")
+        NegNum = prompt(NegNum,"NEGATIVE NUMBERS")
         result=check_unwanted(NegNum,valid_chars,only_negative=True) #checks the text as an integer and not a float
     return NegNum #returns the correct(ed) text
 
@@ -70,7 +70,7 @@ def verPosNum(PosNum):
     valid_chars="+.0123456789"
     result=check_unwanted(PosNum,valid_chars,) #checks the text as an integer and not a float
     while result == True:
-        PosNum = prompt(PosNum,"POSITIVE NUMBER")
+        PosNum = prompt(PosNum,"POSITIVE NUMBERS")
         result=check_unwanted(PosNum,valid_chars,) #checks the text as an integer and not a float
     return PosNum #returns the correct(ed) text
 
@@ -78,17 +78,26 @@ def verNegInt(NegInt):
     valid_chars="-0123456789"
     result=check_unwanted(NegInt,valid_chars,only_negative=True) #checks the text as an integer and not a float
     while result == True:
-        NegInt = prompt(NegInt,"NEGATIVE INTEGER")
+        NegInt = prompt(NegInt,"NEGATIVE INTEGERS")
         result=check_unwanted(NegInt,valid_chars,only_negative=True) #checks the text as an integer and not a float
     return NegInt #returns the correct(ed) text
 
 def verPosInt(PosInt):
     valid_chars="+0123456789"
-    result=check_unwanted(PosInt,valid_chars,) #checks the text as an integer and not a float
+    result=check_unwanted(PosInt, valid_chars) #checks the text as an integer and not a float
     while result == True:
-        PosInt = prompt(PosInt,"POSITIVE INTEGER")
-        result=check_unwanted(PosInt,valid_chars,) #checks the text as an integer and not a float
+        PosInt = prompt(PosInt,"POSITIVE INTEGERS")
+        result=check_unwanted(PosInt, valid_chars) #checks the text as an integer and not a float
     return PosInt #returns the correct(ed) text
+
+#Under construction will be fine in verifier5
+import string 
+def verEmpty(char, valid_chars= string.printable, message="All characters but not empty"):
+    result= check_unwanted(char, valid_chars=valid_chars)
+    while result == True:
+        char = prompt(char, message)
+        result = check_unwanted(char, valid_chars=valid_chars)
+    return char
 
 if __name__ == "__main__":
     while True:
@@ -102,6 +111,7 @@ if __name__ == "__main__":
     #     print(user,"is valid")
     #     user = verNegInt(input("Using verNegInt to check Only Negative Integer: "))
     #     print(user,"is valid")
-        user = verPosInt(input("Using verPosInt to check Only Positive Integer: "))
+        # user = verPosInt(input("Using verPosInt to check Only Positive Integer: "))
+        # print(user,"is valid")
+        user = verEmpty(input("Using verEmpty to check for empty string: "))
         print(user,"is valid")
-    

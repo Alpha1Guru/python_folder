@@ -1,16 +1,17 @@
-def get_sum(a, b):
-    if a > b:
-        a, b = b, a
-    return sum(num for num in range(a, b+1))
-print(get_sum(0, -1))
+def longest(a1, a2):
+    longest_list = sorted(set(a1).union(set(a2)))
+    longest_str = ""
+    for char in longest_list:
+    #     longest_str += str(char)
+    # return longest_str
+        yield str(char)
 
-def get_sum(a, b):
-    return (a + b) * (abs(a - b) + 1) / 2
-print(get_sum(0, -1))
-def get_sum(a,b):
-    return sum(range(min(a, b), max(a, b) + 1))
-print(get_sum(0, -1))
-def get_sum(a,b):
-    if a>b : a,b = b,a
-    return sum(range(a,b+1))
-print(get_sum(0, -1))
+
+if __name__ == "__main__":
+    a = "xyaabbbccccdefww"
+    b = "xxxxyyyyabklmopq"
+    print(longest(a, b), longest(a, b) == "abcdefklmopqwxy")
+    a = "abcdefghijklmnopqrstuvwxyz"
+    print(longest(a, a), longest(a, a) == "abcdefghijklmnopqrstuvwxyz")
+    
+    
