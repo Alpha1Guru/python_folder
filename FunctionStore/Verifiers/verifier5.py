@@ -2,7 +2,6 @@
 import string
 from typing import Tuple
 
-
 class verify:
     """
     checks an string of text for unwanted characters
@@ -235,8 +234,8 @@ if __name__ == "__main__":
     ## It defaulted to numbers instead 
     # user = verAlpha( 
     #             input("Using verAlpha to check Only letters: "),
-    #             letters=False, empty_allowed=False, 
-    #             numbers=False,
+    #         ->  letters=False, empty_allowed=False, 
+    #         ->  numbers=False,
     #             invalid_message=("No Not an empty value!",
     #                     "Your input contain invalid characters that are not letters"
     #                     )

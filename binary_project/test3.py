@@ -52,12 +52,11 @@ def verify(decimal):
     
 while  True :
     decimal =str(float(verify(input("Give me a float  " ))))
-    print(decimal)
     
     #code to split  the number into integer and fraction
     decimal_point_index = decimal.index(".")
-    integer = decimal[:decimal_point_index:]
-    fraction ="0" + decimal[decimal_point_index::]
+    integer = decimal[:decimal_point_index]
+    fraction ="0" + decimal[decimal_point_index:]
     
     
     print(decimal)

@@ -3,65 +3,65 @@ import pandas as pd
 from verifier4 import verPosInt as vi
 from verifier4 import verEmpty as verEmpty
 import string
+from made_a_mistake import made_a_mistake
+from correct_duplicate import correct_duplicate as cr_dp
 
-""" Yet to Handle duplicates
-    Regex regular expression for handling first names and last names
-    correcting p1 and p2 misplacement"""
+""" Continue with get_hall_limits
+    hall structure need to be decided
+    Modification needed for correct_duplicate function
+    Regex regular expression for handling first names and last names and verifier5
+    correcting p1 and p2 misplacement
+    Make verifier5 work maybe by function constructor (make_verifier(*args, **kwargs)) and class"""
+
 p1 = "~"*3
 p2 = "."*3
 p3 = u"\u10FB"
 class_file = "test_class.xlsx"
+halls_file = "test_hall.xlsx"
 val_chr_ms: tuple = (string.ascii_letters + string.whitespace + string.digits,
                     "Just letters and numbers")
 val_chr_ms_h_names: tuple = (string.ascii_letters + string.whitespace,
                           "Just letters")
 
-#Under construction
-def made_a_mistake(func, *args, **kwargs):
-    def func_type():
-        if args:
-            if kwargs:
-                return func(*args, **kwargs)
-            else:
-                return func(*args)
-        elif kwargs:
-            return func(**kwargs)
-        else:
-            return func()
-
-    while True:
-        mistake = input("Made a mistake? [y/n]: ").strip()
-        if mistake.lower() == "y":
-            return func_type()
-        elif mistake.lower() == "n":
-            print("Done!\n")
-            return None
-            break
-        else:
-            print("Didn't catch that")
 
 def get_class_names() -> list:
     """Get the names of classes
     """
+    def get_class(p3: str, count: int):
+        """Get the class name for a class
+        
+        Prevents me from repeating this input statement"""    
+        return  verEmpty(input(f"{p3} {count}. Class Name (Type 0 when Done): ").strip(),
+                            valid_chars= val_chr_ms[0],
+                            message=val_chr_ms[1]
+                            ).lower()
+
     print(f"\n{p1}GIVE ME THE NAMES OF CLASSES IN ASCENDING ORDER{p1}"
           f"\n{p2}Type 0 when Done")
     class_names = []
     count = 1
-    class_name = verEmpty(input(f"{p3} {count}. Class Name (Type 0 when Done): ").strip(),
-                          valid_chars= val_chr_ms[0],
-                          message=val_chr_ms[1])
-    while class_name != "0":
-        class_names.append(class_name.upper())
-        count += 1
-        class_name = verEmpty(input(f"{p3} {count}. Class Name (Type 0 when Done): ").strip(),
-                          valid_chars= val_chr_ms[0],
-                          message=val_chr_ms[1])
-    
+    err_message = "You have given that name before Try again"
+
+    while True: 
+        class_name = get_class(p3, count)
+        if class_name == "0":
+            break
+        # Handles duplicates may need a function
+        if class_name != "0":
+            while True:
+                if class_name in class_names:
+                    print(err_message)
+                    class_name = get_class(p3, count)
+                elif class_name not in class_names:
+                    class_names.append(class_name)
+                    count += 1
+                    break
+
     #TBD for confirmation    
     print(f"{p2}Classes are:")
     for name_no, class_name in enumerate(class_names):
-        print(f"\t{name_no+1}. {class_name}")
-    
+        print(f"\t{name_no+1}. {class_name.upper()}")
+
     return made_a_mistake(get_class_names) or class_names
 
 def get_students_by_class(class_names: list) -> dict:
@@ -73,27 +73,43 @@ def get_students_by_class(class_names: list) -> dict:
     Returns:
         dict: Dictionary containing the class names mapped to class members
     """
+    def get_member(index, p3) -> str:
+        """Get the name of each member
+        
+        Prevents me from rewriting this statement"""
+        return verEmpty(input(f"{index}{p3} Member: ").strip(),
+                            valid_chars=val_chr_ms_h_names[0],
+                            message=val_chr_ms_h_names[1]
+                            )
+
     def get_students(class_name: str, no_of_members: int) -> list:
         print(f"~~~GIVE ME THE MEMBERS OF {class_name.upper()}~~~")
         students_list = []
+        err_message = "Sorry, You have given this name before\nTry Again!"
         for i_member in range(no_of_members):
-            member = verEmpty(input(f"{i_member + 1}{p3} Member: ").strip(),
-                              valid_chars=val_chr_ms_h_names[0],
-                              message=val_chr_ms_h_names[1]
-                              )
+            member =  get_member( index=i_member+1, p3=p3)
+            # Handles duplicates may need a function
+            while True:
+                if member in students_list:
+                    print(err_message)
+                    member = get_member( index=i_member+1, p3=p3)
+                else:
+                    break
             students_list.append(member)
         
         #TBD for confirmation
         print(f"{p1} Students for {class_name} are:")
-        for index, student in enumerate(students_list):
-            print(f"{index + 1}{p3} {student}")
-            
+        if students_list:
+            for index, student in enumerate(students_list):
+                print(f"{index + 1}{p3} {student}")
+        else:
+            print(f"{p3} Not available")
         return made_a_mistake(get_students, class_name, no_of_members) or students_list
     
     students_by_class = {}
     for class_name in class_names:
         no_of_members: int = int(vi(input(
-            f"{p2} How many members are in {class_name}: ").strip()))
+            f"{p2} How many members are in {class_name.upper()}: ").strip()))
         students_by_class[class_name] = get_students(class_name, no_of_members)
     return students_by_class
 
@@ -106,13 +122,13 @@ def save_class_data_to_excel(class_file: str, students_by_class: dict) -> None:
                                 to a list of members.
         
     """    
-    with pd.ExcelWriter(class_file) as xfile:
+    with pd.ExcelWriter(class_file) as xf:
         for class_name, class_members in students_by_class.items():
             data= {"Names":[name.title() for name in class_members]}
             sheet = pd.DataFrame(data,
                                 index= (i+1 for i in range(len(class_members)))
                                 )
-            sheet.to_excel(xfile, sheet_name=class_name.upper() + " Class")
+            sheet.to_excel(xf, sheet_name=class_name.upper() + " Class")
 
 def get_actual_classes(students_by_class: dict) -> list:
     """Tries to get the classes that are to be assigned to
@@ -148,31 +164,8 @@ def get_actual_classes(students_by_class: dict) -> list:
         print(f"{p3} {class_}")
 
     return made_a_mistake(get_actual_classes, students_by_class) or actual_working_class
-                
+
                                 
-def get_hall_names()-> list:
-    """Get the names of Halls to be used by students
-    """
-    print(f"\n{p1}GIVE ME THE NAMES OF HALLS{p1}"
-          f"\n{p2}Type 0 when Done")
-    hall_names = []
-    hall_name = verEmpty(input(f"{p3} Hall Name (Type 0 when Done): ").strip(),
-                         valid_chars=val_chr_ms[0],
-                         message=val_chr_ms[1]
-                         )
-    while hall_name != "0":
-        hall_names.append(hall_name.upper())
-        hall_name = verEmpty(input(f"{p3} Hall Name (Type 0 when Done): ").strip(),
-                         valid_chars=val_chr_ms[0],
-                         message=val_chr_ms[1]
-                         )
-    print(f"{p2}Halls are:")
-    
-    #TBD for confirmation
-    for name_no, hall_name in enumerate(hall_names):
-        print(f"\t{name_no+1}. {hall_name}")
-    
-    return made_a_mistake(get_hall_names) or hall_names
 
 def hall_size(hall_name: str, halls: dict) -> int:  
     return sum(len(class_) for class_ in halls[hall_name].values())
@@ -183,6 +176,42 @@ def total_hall_size(hall_names: list) -> int:
 def remainder(total_students: int, hall_names: list) -> int:
     return total_students - total_hall_size()
 
+
+
+def get_hall_names()-> list:
+    """Get the names of Halls to be used by students
+    """
+    def get_hall_name(p3):
+        """Get the name of a single hall.
+        
+        Prevents me from repeating this input statement"""
+        return verEmpty(input(f"{p3} Hall Name (Type 0 when Done): ").strip(),
+                         valid_chars=val_chr_ms[0],
+                         message=val_chr_ms[1]
+                         ).lower()
+        
+    print(f"\n{p1}GIVE ME THE NAMES OF HALLS{p1}"
+          f"\n{p2}Type 0 when Done")
+    hall_names = []
+    hall_name = get_hall_name(p3)
+    err_message = "That hall name have been given before"
+    while hall_name != "0":
+        # Handle duplicate may need a function for this
+        while True:
+            if hall_name in hall_names:
+                print(err_message)
+                hall_name = get_hall(p3, count)
+            elif hall_name not in hall_names:
+                hall_names.append(hall_name.upper())
+                
+        hall_name = get_hall_name(p3)
+    
+    #TBD for confirmation
+    for name_no, hall_name in enumerate(hall_names):
+        print(f"\t{name_no+1}. {hall_name}")
+    
+    return made_a_mistake(get_hall_names) or hall_names
+
 def get_hall_limits(hall_names: list, total_students: int) -> list:
     """_summary_
 
@@ -192,7 +221,7 @@ def get_hall_limits(hall_names: list, total_students: int) -> list:
     Returns:
         list: _description_
     """
-    hall_limits = [ total_students // len(hall_names) for hall in hall_names]
+    hall_limits = [ total_students // len(hall_names) for hall in hall_names] 
     hall_limits = []
     while sum(hall_limits) != total_students:
         hall_limits = []
@@ -244,6 +273,11 @@ def store_db(class_file: str):
     # hall_remainder = total_students % len(hall_names)
     # halls = assign_to_halls()
     
+if __name__ == "__main__":
+    students_by_class = get_students_by_class(["jss1", "jss2", "jss3", "ss1"])
+    print(students_by_class)
+
+
 # hall_names = ["A","B","C","D","E","F","G","H","I","J","K","L","M",]
 # class_names = ["JSS1","JSS2","JSS3","SS1A","SS1B","SS2A","SS2B","SS3A","SS3B",]
 
@@ -393,6 +427,3 @@ def store_db(class_file: str):
 #         sheet = pd.DataFrame(d, index=(i+1 for i in range(len(studentnameclasses))) )
 #         # print(sheet)
 #         sheet.to_excel(xfile, sheet_name=hallname + " Hall")
-
-if __name__ == "__main__":
-    store_db(class_file)

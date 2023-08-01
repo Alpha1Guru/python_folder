@@ -17,8 +17,12 @@ def longest(a1: str, a2: str) -> str:
         longest_str += str(char)
     return longest_str
 
-a = "xyaabbbccccdefww"
-b = "xxxxyyyyabklmopq"
-print(longest(a, b), longest(a, b) == "abcdefklmopqwxy")
-a = "abcdefghijklmnopqrstuvwxyz"
-print(longest(a, a), longest(a, a) == "abcdefghijklmnopqrstuvwxyz")
+def longest_by_someone(a1, a2):
+    return "".join(sorted(set(a1 + a2)))
+
+if __name__ == "__main__":
+    a = "xyaabbbccccdefww"
+    b = "xxxxyyyyabklmopq"
+    print(longest(a, b), longest(a, b) == "abcdefklmopqwxy")
+    a = "abcdefghijklmnopqrstuvwxyz"
+    print(longest(a, a), longest(a, a) == "abcdefghijklmnopqrstuvwxyz")

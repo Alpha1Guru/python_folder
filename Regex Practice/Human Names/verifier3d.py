@@ -4,36 +4,36 @@ def check_unwanted(text,
                 only_negative= False,
                 empty_allowed= False,
                 only_numbers=True,
-                ):
-    result = False
+                ) -> bool:
+    
     # Prevents user from giving an empty string if empty values are invalid.
     if not text:
         if not empty_allowed:
-            result = True  # result become True if empty values are invalid
+            return True  # returns True if empty values are invalid
         elif empty_allowed:
-            result = False  # result become False if empty values are valid
-        return result  # No need checking remaining characters
+            return False  # returns False if empty values are valid
+    # No need checking remaining characters
     
-    # Result is equal true if the text passes any of the test.
+    # Returns True if the text passes any of the test.
     if only_numbers:
         if text == "-" or text == "+":
-            result = True
+            return True
         if text == ".":
-            result = True
+            return True
         if text.count(".") > 1: # test of number of decimal point
-            result = True
+            return True
         if "-" in text[1:] or "+" in text[1:]:
-            result = True
+            return True
         if only_negative: # if checking for a negative number
             if text[0] != "-": # first character is not a minus sign?
-                result = True
+                return True
 
-    # Result equals true if an invalid character is found.
+    # Returns true if an invalid character is found.
     for i in range(len(text)):
         if  not text[i] in valid_chars: 
-            result = True
+            return True
             break
-    return result
+    return False
 
 def prompt(num,type):
     if num == "":
@@ -111,7 +111,7 @@ if __name__ == "__main__":
     #     print(user,"is valid")
     #     user = verNegInt(input("Using verNegInt to check Only Negative Integer: "))
     #     print(user,"is valid")
-        # user = verPosInt(input("Using verPosInt to check Only Positive Integer: "))
-        # print(user,"is valid")
-        user = verEmpty(input("Using verEmpty to check for empty string: "))
+        user = verPosInt(input("Using verPosInt to check Only Positive Integer: "))
         print(user,"is valid")
+        # user = verEmpty(input("Using verEmpty to check for empty string: "))
+        # print(user,"is valid")
