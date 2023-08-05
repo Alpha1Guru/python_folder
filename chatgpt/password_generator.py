@@ -22,7 +22,7 @@ while True:
             if char in ("?","\\","/","*","\'","\"","<",">","|"):
                 name = name.replace(char,"")
         filename = "_".join(name.split()) + ".txt"
-        filepath = "C:/Users/hp/Documents/github/python_folder/python_folder/chatgpt/generatedpasswords/" + filename
+        filepath = "C:/Users/DELL/Documents/github/python_folder/chatgpt/generatedpasswords/" + filename
         length = int(vi(input("How long would you want your password to be (give me an integer number): ")))
         complexity = input("Enter the complexity of the password (low, medium, high): ")
         while complexity.lower() not in ("low","medium","high"):
@@ -39,11 +39,18 @@ while True:
         pyclip.copy(password)
         message = name + "\n" + "-"*len(name) + "\n" + password
         # message = f""""""
-        with open(filepath,'x') as passfile:
-             passfile.write(message)
         print(f"""Your "{name}" password is: {password}
         Your password can be found in {filepath}
         NO need to copy password it is already in your clip board""")
+        save_password = input("\nWant to save your password?: ")
+        while save_password.lower() not in ("yes","no"):
+            print("Didn't catch that")
+            save_password = input("\nWant to save your password?: ")
+            if save_password.lower() == "yes":
+                with open(filepath,'x') as passfile:
+                    passfile.write(message)
+            else:
+                print("Done")
     elif response.lower() == "no":
         print(f"Thanks for using password generator Bye!!")
         exit()

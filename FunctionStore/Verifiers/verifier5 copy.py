@@ -10,40 +10,40 @@ class verify:
         pass
       
     def check_unwanted(text,
-                    valid_chars=".-+0123456789",
-                    only_negative= False,
-                    empty_allowed= False,
-                    only_numbers=True,
-                    ):
-        result = False
+                valid_chars=".-+0123456789",
+                only_negative= False,
+                empty_allowed= False,
+                only_numbers=True,
+                ) -> bool:
+    
         # Prevents user from giving an empty string if empty values are invalid.
         if not text:
             if not empty_allowed:
-                result = True  # result become True if empty values are invalid
+                return True  # returns True if empty values are invalid
             elif empty_allowed:
-                result = False  # result become False if empty values are valid
-            return result  # No need checking remaining characters
+                return False  # returns False if empty values are valid
+        # No need checking remaining characters
         
-        # Result is equal true if the text passes any of the test.
+        # Returns True if the text passes any of the test.
         if only_numbers:
             if text == "-" or text == "+":
-                result = True
+                return True
             if text == ".":
-                result = True
+                return True
             if text.count(".") > 1: # test of number of decimal point
-                result = True
+                return True
             if "-" in text[1:] or "+" in text[1:]:
-                result = True
+                return True
             if only_negative: # if checking for a negative number
                 if text[0] != "-": # first character is not a minus sign?
-                    result = True
+                    return True
 
-        # Result equals true if an invalid character is found.
+        # Returns true if an invalid character is found.
         for i in range(len(text)):
             if  not text[i] in valid_chars: 
-                result = True
+                return True
                 break
-        return result
+        return False
 
     def prompt(text: str, type_text: str,
             invalid_message: Tuple[str,str] = None, 
@@ -65,7 +65,6 @@ class verify:
 
     def verify(text,
             numbers=True,
-            every=False,
             decimal=True,
             only_positive=False,
             only_negative=False,
@@ -76,10 +75,7 @@ class verify:
             invalid_message: Tuple[str,str]=None,
             ignore=None,
             remove: Tuple[str, ...] = None,
-            # future features
-            max_len: int = None,
-            min_len: int = None,
-            fix_len: int = None,
+            len: set = None,
             ):
 
         if not letters and not numbers and not punctuation: 
@@ -91,7 +87,7 @@ class verify:
         #     if min_len < 1:
         #         pass # Will have to raise error
 
-        if letters or punctuation or whitespace or every:
+        if letters or punctuation or whitespace:
             only_numbers = False
         else:
             only_numbers = True
@@ -130,11 +126,7 @@ class verify:
 
             if numbers and letters or punctuation :
                 type_text = "valid character(s)"
-            
-            if every:
-                valid_char = string.printable
-                type_text = "valid character(s)"
-                
+                          
             if remove is not None:
                 for char in valid_char:
                     if char in remove:
@@ -218,12 +210,11 @@ if __name__ == "__main__":
         #     )
         # print(("empty" if not user else user) ,"is valid")
         
-        user = verChar(
-            input("Using verChar to check All characters (Nothing really!!): "),
-            every=True,
-            invalid_message=("No empty value please", "How can you be wrong?!"),
-            remove=("a"))
-        print(("empty" if not user else user) ,"is valid") 
+        # user = verChar(
+        #     input("Using verChar to check All characters (Nothing really!!): "),
+        #     invalid_message=("No empty value please", "How can you be wrong?!"),
+        #     remove=("a"))
+        # print(("empty" if not user else user) ,"is valid") 
         
 
         
