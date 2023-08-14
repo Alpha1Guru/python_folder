@@ -6,7 +6,21 @@ class verify:
     """
     checks an string of text for unwanted characters
     """
-    def __init__(self):
+    def __init__(
+            self,
+            text,
+            numbers=True,
+            decimal=True,
+            only_positive=False,
+            only_negative=False,
+            empty_allowed=False,
+            letters=False,          
+            punctuation = False,
+            whitespace=False,
+            invalid_message: Tuple[str,str]=None,
+            ignore: Tuple[str, ...] = None,
+            remove: Tuple[str, ...] = None,
+            len: set = None,):
         pass
       
     def check_unwanted(text,
@@ -15,6 +29,7 @@ class verify:
                 empty_allowed= False,
                 only_numbers=True,
                 ) -> bool:
+        
     
         # Prevents user from giving an empty string if empty values are invalid.
         if not text:
@@ -73,13 +88,14 @@ class verify:
             punctuation = False,
             whitespace=False,
             invalid_message: Tuple[str,str]=None,
-            ignore=None,
+            ignore: Tuple[str, ...] = None,
             remove: Tuple[str, ...] = None,
             len: set = None,
             ):
 
         if not letters and not numbers and not punctuation: 
             numbers = True  # should have raised an error instead, coming soon ...
+            pass
         
         # if min_len is not None or max_len:
         #     if max_len < 1:

@@ -8,7 +8,8 @@ class verify:
     """
     def __init__(self):
         pass
-      
+    pass
+
 def check_unwanted(text,
                 valid_chars=".-+0123456789",
                 only_negative= False,
