@@ -108,7 +108,7 @@ class verify:
         else:
             only_numbers = True
         
-        def get_valid_char_and_type(ignore):
+        def get_valid_char_and_type(ignore)-> Tuple[str, str]:
             type_text = ""
             valid_char = ""
             if ignore:
