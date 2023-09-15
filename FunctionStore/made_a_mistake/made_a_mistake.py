@@ -21,6 +21,5 @@ def made_a_mistake(func, *args, **kwargs):
         elif mistake.lower() == "n":
             print("Done!\n")
             return None
-            break
         else:
             print("Didn't catch that")
