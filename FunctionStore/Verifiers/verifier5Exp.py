@@ -2,9 +2,9 @@
 import string
 from typing import Tuple
 
-class verify:
+class MakeVerifier:
     """
-    checks an string of text for unwanted characters
+    This class is used to create objects for input validation
     """
     def __init__(
             self,
@@ -13,7 +13,7 @@ class verify:
             decimal=True,
             only_positive=False,
             only_negative=False,
-            empty_allowed=False,
+            allow_empty_value=False,
             letters=False,          
             punctuation = False,
             whitespace=False,
@@ -26,16 +26,16 @@ class verify:
     def check_unwanted(text,
                 valid_chars=".-+0123456789",
                 only_negative= False,
-                empty_allowed= False,
+                allow_empty_value= False,
                 only_numbers=True,
                 ) -> bool:
         
     
         # Prevents user from giving an empty string if empty values are invalid.
         if not text:
-            if not empty_allowed:
+            if not allow_empty_value:
                 return True  # returns True if empty values are invalid
-            elif empty_allowed:
+            elif allow_empty_value:
                 return False  # returns False if empty values are valid
         # No need checking remaining characters
         
@@ -60,55 +60,7 @@ class verify:
                 break
         return False
 
-    def prompt(text: str, type_text: str,
-            invalid_message: Tuple[str,str] = None, 
-            empty_allowed=False) -> str:
-        if not text and not empty_allowed:
-            if invalid_message:
-                message = f"\n{invalid_message[0]}: "
-            elif not invalid_message:    
-                message = (f"\nYou gave an EMPTY value!"
-                        f"\nPlease I need a {type_text.upper()}: ")
-        elif text:
-            if invalid_message:
-                message = f"\n{invalid_message[1]}: "
-            elif not invalid_message:
-                message = (f"\n'{text}' is NOT A {type_text.upper()}!"
-                        f"\nPlease I need a {type_text.upper()}: ")
-        text = input(message)
-        return text
-
-    def verify(text,
-            numbers=True,
-            decimal=True,
-            only_positive=False,
-            only_negative=False,
-            empty_allowed=False,
-            letters=False,          
-            punctuation = False,
-            whitespace=False,
-            invalid_message: Tuple[str,str]=None,
-            ignore: Tuple[str, ...] = None,
-            remove: Tuple[str, ...] = None,
-            len: set = None,
-            ):
-
-        if not letters and not numbers and not punctuation: 
-            numbers = True  # should have raised an error instead, coming soon ...
-            pass
-        
-        # if min_len is not None or max_len:
-        #     if max_len < 1:
-        #         pass # Will have to raise error
-        #     if min_len < 1:
-        #         pass # Will have to raise error
-
-        if letters or punctuation or whitespace:
-            only_numbers = False
-        else:
-            only_numbers = True
-        
-        def get_valid_char_and_type(ignore)-> Tuple[str, str]:
+        def determine_valid_char_and_type(self)-> Tuple[str, str]:
             type_text = ""
             valid_char = ""
             if ignore:
@@ -150,20 +102,56 @@ class verify:
             
             return (valid_char, type_text)
         
-        valid_char_type_text = get_valid_char_and_type(ignore)
+    def prompt_for_correction(text: str, type_text: str,
+            invalid_message: Tuple[str,str] = None, 
+            allow_empty_value=False) -> str:
+        if not text and not allow_empty_value:
+            if invalid_message:
+                message = f"\n{invalid_message[0]}: "
+            elif not invalid_message:    
+                message = (f"\nYou gave an EMPTY value!"
+                        f"\nPlease I need a {type_text.upper()}: ")
+        elif text:
+            if invalid_message:
+                message = f"\n{invalid_message[1]}: "
+            elif not invalid_message:
+                message = (f"\n'{text}' is NOT A {type_text.upper()}!"
+                        f"\nPlease I need a {type_text.upper()}: ")
+        text = input(message)
+        return text
+    # This will contain parameters that parameters that are not necessary for making the verifier
+    def verify(self, allow_empty_value: bool = False):
+
+        if not letters and not numbers and not punctuation: 
+            numbers = True  # should have raised an error instead, coming soon ...
+            pass
+        
+        # if min_len is not None or max_len:
+        #     if max_len < 1:
+        #         pass # Will have to raise error
+        #     if min_len < 1:
+        #         pass # Will have to raise error
+
+        if letters or punctuation or whitespace:
+            only_numbers = False
+        else:
+            only_numbers = True
+        
+        
+        valid_char_type_text = determine_valid_char_and_type(ignore)
         print(valid_char_type_text)
         result=check_unwanted(text,valid_char_type_text[0],
                             only_negative=only_negative,
-                            empty_allowed=empty_allowed,
+                            allow_empty_value=allow_empty_value,
                             only_numbers=only_numbers,)
         while result == True:
-            text = prompt(text, 
+            text = prompt_for_correction(text, 
                         valid_char_type_text[1], 
-                        empty_allowed=empty_allowed,
+                        allow_empty_value=allow_empty_value,
                         invalid_message=invalid_message)
             result=check_unwanted(text,valid_char_type_text[0],
                             only_negative=only_negative,
-                            empty_allowed=empty_allowed,
+                            allow_empty_value=allow_empty_value,
                             only_numbers=only_numbers)
         return text
 
@@ -209,7 +197,7 @@ if __name__ == "__main__":
 
         # user = verAlpha(
         #         input("Using verAlpha to check Only letters: "),
-        #         letters=True, empty_allowed=False, 
+        #         letters=True, allow_empty_value=False, 
         #         numbers=False,
         #         invalid_message=(
             #         "No Not an empty value!",
@@ -221,7 +209,7 @@ if __name__ == "__main__":
 
         # user = verPunc(
         #     input("Using verPosInt to check Only Punctuations: "),
-        #     decimal=False, empty_allowed=True,
+        #     decimal=False, allow_empty_value=True,
         #     punctuation=True, numbers=False, ignore=" "
         #     )
         # print(("empty" if not user else user) ,"is valid")
@@ -242,7 +230,7 @@ if __name__ == "__main__":
     ## It defaulted to numbers instead 
     # user = verAlpha( 
     #             input("Using verAlpha to check Only letters: "),
-    #         ->  letters=False, empty_allowed=False, 
+    #         ->  letters=False, allow_empty_value=False, 
     #         ->  numbers=False,
     #             invalid_message=("No Not an empty value!",
     #                     "Your input contain invalid characters that are not letters"

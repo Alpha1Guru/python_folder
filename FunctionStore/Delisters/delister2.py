@@ -4,7 +4,7 @@ def delister(data):  #Takes any data type
         for elem in data:
             if isinstance(elem, (str, int, float)):
                 un_listed.append(elem)
-            elif (data, (list, tuple)):
+            elif isinstance(data, (list, tuple)):
                 elem = list(elem)
                 un_listed.extend(del_list(elem))
             # elif isinstance(elem, dict):
