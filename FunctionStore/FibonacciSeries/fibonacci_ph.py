@@ -1,4 +1,5 @@
 def fibonacci(num):
+    """Accept a number(length) and generates Fibonacci numbers up to that length"""
     fibo =[0,1]
     i = 2 
     #while i <= num:
@@ -7,4 +8,4 @@ def fibonacci(num):
         fibo.append(next_fibo)
         i +=1
     return fibo
-print(fibonacci(9))
+print(fibonacci(10))

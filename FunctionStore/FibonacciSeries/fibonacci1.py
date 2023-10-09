@@ -6,4 +6,4 @@ def fabonacci(num):
         for i in range(2,num):
             series.append(series[i-1]+ series[i-2])
         return series
-print(fabonacci(2))
+print(fabonacci(10))

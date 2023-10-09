@@ -5,4 +5,5 @@ def fibo(num):
         fibo.append(a)
         a, b = b , a+b
     return fibo
-def fibo(num)
+if __name__ == "__main__":
+    print(fibo(10))
