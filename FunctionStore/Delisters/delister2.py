@@ -1,3 +1,5 @@
+#Bug: Dictionary still being 
+#delisted in the del_list function
 def delister(data):  #Takes any data type
     def del_list(data):
         un_listed=[]

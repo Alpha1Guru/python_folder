@@ -14,7 +14,7 @@ def isPhoneNumber(number: str, delimiter = "-") -> bool:
         return False
     return True
 if __name__ == "__main__":
-    print('415-555-4242 is a phone number:')
+    print('Is 415-555-4242 a phone number?')
     print(isPhoneNumber('415-555-4242'))
-    print('Moshi moshi is a phone number:')
+    print('Is Moshi moshi a phone number?')
     print(isPhoneNumber('Moshi moshi'))

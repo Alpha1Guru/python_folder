@@ -18,6 +18,7 @@ mujeeb
 Nnenna
 okoli
 Okoli
+pyclip
 rati
 tochi
 toyin

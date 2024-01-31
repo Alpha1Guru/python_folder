@@ -1,5 +1,5 @@
 
-def correct_duplicate(data: Any, list_: list, message: str = None) -> Any:
+def correct_duplicate(data: any, list_: list, message: str = None) -> any:
     """Asks again for a data if already in the list provided
 
     Args:

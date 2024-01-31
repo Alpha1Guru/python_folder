@@ -2,7 +2,7 @@
 Number Guessing Game
 -------------------------------------------------------------
 '''
-
+import re
 import random
 
 attempts_list = []

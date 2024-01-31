@@ -150,7 +150,8 @@ def get_actual_classes(students_by_class: dict) -> list:
         #may need a function for this
         while True:
             if response == "y":
-                actual_working_class.append(class_members)
+                # actual_working_class.append(class_members)
+                actual_working_class.append(class_name)
                 break
             if response == "n":
                 break
