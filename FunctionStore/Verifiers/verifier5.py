@@ -4,7 +4,7 @@ from typing import Tuple
 
 class verify:
     """
-    checks an string of text for unwanted characters
+    checks an string of texzzt for unwanted characters
     """
     def __init__(self):
         pass
