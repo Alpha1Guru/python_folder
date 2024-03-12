@@ -40,7 +40,7 @@ def prompt(num,type):
         message = f"\nYou gave an EMPTY value! Please I need a {type} number: "
     elif num != "":
         message = f"\n'{num}' is NOT A {type} number! Please I need a {type} number: "
-    num = input(message)
+        num = input(message)
     return num
 
 def verFloat(decimal):  #fuction checks for correct float or decimal numbers
