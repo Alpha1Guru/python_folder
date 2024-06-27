@@ -17,7 +17,7 @@
 
 directions = {"n": 1, "s": -1, "w": -1, "e": 1}
 
-def calculate_displacement_after_walk(walk: list, current_position: list[int, int]):
+def calculate_displacement_after_walk(walk: list, current_position: list):
     """Gets the new position after a walk"""
     x_axis = ("w", "e")
     y_axis = ("n", "s")

@@ -20,6 +20,8 @@ def rgb(ri, gi, bi):
         0:"0", 1:"1", 2:"2", 3:"3", 4:"4", 5:"5", 6:"6", 7:"7", 8:"8",
         9:"9", 10:"A", 11:"B", 12:"C", 13:"D", 14:"E", 15:"F",
     }
+    # The line `r = hex[r//16] + hex[r%16]` is converting the decimal value of the red color component
+    # `r` into its hexadecimal representation.
     r = hex[r//16] + hex[r%16]
     print(r); print(hex)
     g = hex[g//16] + hex[g%16]
