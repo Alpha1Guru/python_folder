@@ -7,11 +7,17 @@ comma and a space, with and inserted before the last
 item. For example, passing the previous spam list to the 
 function would return 'apples, bananas, tofu, and cats'. 
 But your function should be able to 
-work with anylist value passed to it."""
+work with any list value passed to it."""
 
+#No 2
+# def commacode(list_of_words):
+#     return "" if len(list_of_words) == 0 else (", ".join(list_of_words[:-1]) + " and " + list_of_words[-1] if len(list_of_words) > 1 else list_of_words[0])
+
+#No 3
 def commacode(list_of_words):
-    return "" if len(list_of_words) == 0 else (", ".join(list_of_words[:-1]) + " and " + list_of_words[-1] if len(list_of_words) > 1 else list_of_words[0])
+    return ", ".join(list_of_words[:-1]) + f" and {list_of_words[-1]}" if len(list_of_words)> 1 else "".join(list_of_words)
 
+#NO 1
 # def commacode(list_of_words: list):
 #     if len(list_of_words) > 1:
 #         comma_spaced = ", ".join(list_of_words[:-1]) + " and " +list_of_words[-1]
