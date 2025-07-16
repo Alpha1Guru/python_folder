@@ -1,5 +1,5 @@
 
-def correct_duplicate(data, list_: list, message: str = None):
+def correct_duplicate(data, list_: list, message: str):
     """Asks again for a data if already in the list provided
 
     Args:
@@ -18,6 +18,6 @@ def correct_duplicate(data, list_: list, message: str = None):
 if __name__ == "__main__":
     basket = []
     while True:
-        new_food = correct_duplicate(input("Add a food you love in the basket: "), basket, message="Sorry!!, thats already in the basket")
+        new_food = correct_duplicate(input("Add a food you love in the basket: ").lower(), basket, message="Sorry!!, thats already in the basket")
         basket.append(new_food)
         print(basket)
